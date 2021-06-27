@@ -1,0 +1,21 @@
+# OS creates
+.DS_Store
+
+# CLion creates
+.idea/
+
+# Eclipse creates 
+.cproject
+.project
+.settings/
+
+# Microsoft Visual Code creates
+.vscode/
+
+# Xcode files by convention are in folder
+xcode-build/
+
+# build files by convention are in folders
+cmake-build/
+cmake-build-debug/
+cmake-build-release/
