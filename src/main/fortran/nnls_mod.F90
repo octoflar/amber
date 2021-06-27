@@ -120,7 +120,8 @@ contains
     integer       :: i, ii, ip, iter, itmax, iz, iz1, iz2, izmax, j, jj, jz, l, mda, npp1, nsetp
     real(kind=dp) :: zz(m)
     real(kind=dp) :: dummy(1)
-    real(kind=dp) :: alpha, asave, cc, factor = 0.01_dp, sm, ss, t, temp, two = 2.0_dp, unorm, up, wmax, zero = 0.0_dp, ztest
+    real(kind=dp) :: alpha, asave, cc, sm, ss, t, temp, unorm, up, wmax, ztest
+    real(kind=dp), parameter :: factor = 0.01_dp, two = 2.0_dp, zero = 0.0_dp
 
     mode = 1
 
@@ -341,12 +342,13 @@ contains
   !> 1973 JUN 12, and published in the book
   !> "SOLVING LEAST SQUARES PROBLEMS", Prentice-HalL, 1974.
   !> Revised FEB 1995 to accompany reprinting of the book by SIAM.
-  subroutine g1__dp(a, b, cterm, sterm, sig)
+  pure subroutine g1__dp(a, b, cterm, sterm, sig)
     use base_mod, only: dp
 
     real(kind=dp), intent(out) :: cterm, sterm, sig
     real(kind=dp), intent(in)  :: a, b
-    real(kind=dp)              :: one = 1.0_dp, xr, yr, zero = 0.0_dp
+    real(kind=dp)              :: xr, yr
+    real(kind=dp), parameter   :: one = 1.0_dp, zero = 0.0_dp
 
     if (abs( a ) > abs( b )) then
       xr = b / a
@@ -403,7 +405,7 @@ contains
   !> @param icv[in] The storage increment between vectors in \c c.
   !> @param ncv[in] The number of vectors in \c c to be transformed. If \c ncv is less
   !>        than or equal to 0 no operations will be done on \c c.
-  subroutine h12__dp(mode, lpivot, l1, m, u, up, c, ice, icv, ncv)
+  pure subroutine h12__dp(mode, lpivot, l1, m, u, up, c, ice, icv, ncv)
     use base_mod, only: dp
 
     integer,       intent(in)    :: mode, lpivot, l1, m, ice, icv, ncv
@@ -411,7 +413,8 @@ contains
     real(kind=dp), intent(inout) :: up
 
     integer                      :: i, i2, i3, i4, incr, j
-    real(kind=dp)                :: b, cl, clinv, one = 1.0_dp, sm
+    real(kind=dp)                :: b, cl, clinv, sm
+    real(kind=dp), parameter     :: one = 1.0_dp
 
     if (lpivot <= 0 .or. lpivot >= l1 .or. l1 > m) then
       ! return
