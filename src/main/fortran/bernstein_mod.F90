@@ -3,43 +3,51 @@
 !> @data 2021
 !> @copyright MIT License
 !> @brief Module for evaluating multivariate Bernstein polynomials.
-!!
-!! Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein–Bezier form."
-!! Journal of Approximation Theory 143, 44–61. <https://doi.org/10.1016/j.jat.2006.05.007>.
+!>
+!> Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein–Bezier form."
+!> Journal of Approximation Theory 143, 44–61. <https://doi.org/10.1016/j.jat.2006.05.007>.
 module bernstein_mod
   use base_mod, only: sp, dp
   implicit none
   private
 
+  !> @brief Evaluates an univariate Bernstein basis at many abscissa values.
   interface bernstein_eval_basis
     module procedure bernstein_eval_basis__dp
   end interface
 
+  !> @brief Evaluates an n-variate Bernstein basis at many points.
   interface bernstein_eval_basis_n
     module procedure bernstein_eval_basis_n__dp
     module procedure bernstein_eval_basis_n__sp
   end interface
 
+  !> @brief Evaluates an univariate Bernstein polynomial at many abscissa values.
   interface bernstein_eval_poly
     module procedure bernstein_eval_poly__dp
   end interface
 
+  !> @brief Evaluates an n-variate Bernstein polynomial at many points.
   interface bernstein_eval_poly_n
     module procedure bernstein_eval_poly_n__dp
   end interface
 
+  !> @brief Increments the degree of an univariate Bernstein polynomial.
   interface bernstein_incr_degree
     module procedure bernstein_incr_degree__dp
   end interface
 
+  !> @brief Increments the degree of an n-variate Bernstein polynomial.
   interface bernstein_incr_degree_n
     module procedure bernstein_incr_degree_n__dp
   end interface
 
+  !> @brief Returns the value of an univariate Bernstein polynomial at a single abscissa value.
   interface bernstein_poly
     module procedure bernstein_poly__dp
   end interface
 
+  !> @brief Returns the value of an n-variate Bernstein polynomial at a single point.
   interface bernstein_poly_n
     module procedure bernstein_poly_n__dp
   end interface

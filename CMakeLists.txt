@@ -39,6 +39,10 @@ add_unit_test(bernstein_test
         ${MAIN}/fortran/base_mod.F90
         ${MAIN}/fortran/bernstein_mod.F90
         ${TEST}/fortran/bernstein_mod_test.F90)
+add_unit_test(nnls_test
+        ${MAIN}/fortran/base_mod.F90
+        ${MAIN}/fortran/nnls_mod.F90
+        ${TEST}/fortran/nnls_mod_test.F90)
 
 
 ##
