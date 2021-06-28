@@ -5,6 +5,7 @@
 module nnls_mod_testsuite
   use test_mod
   use base_mod
+  use bernstein_mod
   use nnls_mod
 
   implicit none
@@ -34,31 +35,23 @@ contains
 
   end subroutine after
 
-
   subroutine test_nnls_solve_01
     character(len=*), parameter :: TEST = "test_nnls_solve_01"
 
-    integer,       parameter :: m = 2
+    integer,       parameter :: m = 3
     integer,       parameter :: n = 6
-    ! y = 2 x + 3, x = 0.0, 0.2, ..., 1.0
-    real(kind=dp), parameter :: y(n) = (/ 3.00_dp, 3.40_dp, 3.80_dp, 4.20_dp, 4.60_dp, 5.00_dp /)
+    real(kind=dp), parameter :: x(n) = (/ 0.0_dp, 0.2_dp, 0.4_dp, 0.6_dp, 0.8_dp, 1.0_dp /)
+    real(kind=dp), parameter :: y(n) = (/ 3.0_dp, 3.0_dp, 3.0_dp, 3.0_dp, 3.0_dp, 3.0_dp /)  ! y = 3
     real(kind=dp)            :: a(m,n)
-    real(kind=dp)            :: x(m)
+    real(kind=dp)            :: b(m)
     integer                  :: info
 
-    ! The 1st basis function is constant
-    a(1,:) = 1.00_dp
-    ! The 2nd basis function is identity
-    a(2,1) = 0.00_dp
-    a(2,2) = 0.20_dp
-    a(2,3) = 0.40_dp
-    a(2,4) = 0.60_dp
-    a(2,5) = 0.80_dp
-    a(2,6) = 1.00_dp
+    call bernstein_eval_basis( n, x, m - 1, a )
 
-    call nnls_solve( m, n, a, y, x, info )
-    call assert_equals( TEST, 3.0_dp, x(1), 1.0E-6_dp )
-    call assert_equals( TEST, 2.0_dp, x(2), 1.0E-6_dp )
+    call nnls_solve( m, n, a, y, b, info )
+    call assert_equals( TEST, 3.0_dp, b(1), 1.0E-6_dp )
+    call assert_equals( TEST, 3.0_dp, b(2), 1.0E-6_dp )
+    call assert_equals( TEST, 3.0_dp, b(3), 1.0E-6_dp )
     call assert_equals( TEST, 0, info )
   end subroutine test_nnls_solve_01
 
@@ -67,33 +60,18 @@ contains
 
     integer,       parameter :: m = 3
     integer,       parameter :: n = 6
-    ! y = x**2 + 2 x + 3, x = 0.0, 0.2, ..., 1.0
-    real(kind=dp), parameter :: y(n) = (/ 3.00_dp, 3.44_dp, 3.96_dp, 4.56_dp, 5.24_dp, 6.00_dp /)
+    real(kind=dp), parameter :: x(n) = (/ 0.0_dp, 0.2_dp, 0.4_dp, 0.6_dp, 0.8_dp, 1.0_dp /)
+    real(kind=dp), parameter :: y(n) = (/ 3.0_dp, 3.4_dp, 3.8_dp, 4.2_dp, 4.6_dp, 5.0_dp /)  ! y = 2 x + 3
     real(kind=dp)            :: a(m,n)
-    real(kind=dp)            :: x(m)
+    real(kind=dp)            :: b(m)
     integer                  :: info
 
-    ! The 1st basis function is constant
-    a(1,:) = 1.00_dp
-    ! The 2nd basis function is identity
-    a(2,1) = 0.00_dp
-    a(2,2) = 0.20_dp
-    a(2,3) = 0.40_dp
-    a(2,4) = 0.60_dp
-    a(2,5) = 0.80_dp
-    a(2,6) = 1.00_dp
-    ! The 3rd basis function is a parabola
-    a(3,1) = 0.00_dp
-    a(3,2) = 0.04_dp
-    a(3,3) = 0.16_dp
-    a(3,4) = 0.36_dp
-    a(3,5) = 0.64_dp
-    a(3,6) = 1.00_dp
+    call bernstein_eval_basis( n, x, m - 1, a )
 
-    call nnls_solve( m, n, a, y, x, info )
-    call assert_equals( TEST, 3.0_dp, x(1), 1.0E-6_dp )
-    call assert_equals( TEST, 2.0_dp, x(2), 1.0E-6_dp )
-    call assert_equals( TEST, 1.0_dp, x(3), 1.0E-6_dp )
+    call nnls_solve( m, n, a, y, b, info )
+    call assert_equals( TEST, 3.0_dp, b(1), 1.0E-6_dp )
+    call assert_equals( TEST, 4.0_dp, b(2), 1.0E-6_dp )
+    call assert_equals( TEST, 5.0_dp, b(3), 1.0E-6_dp )
     call assert_equals( TEST, 0, info )
   end subroutine test_nnls_solve_02
 
@@ -102,39 +80,47 @@ contains
 
     integer,       parameter :: m = 3
     integer,       parameter :: n = 6
-    ! y = x**2 + 2 x + 3, x = 0.0, 0.0, ..., 1.0 (only two different points!)
-    real(kind=dp), parameter :: y(n) = (/ 3.00_dp, 3.00_dp, 3.00_dp, 3.00_dp, 3.00_dp, 6.00_dp /)
+    real(kind=dp), parameter :: x(n) = (/ 0.00_dp, 0.20_dp, 0.40_dp, 0.60_dp, 0.80_dp, 1.00_dp /)
+    real(kind=dp), parameter :: y(n) = (/ 3.00_dp, 3.44_dp, 3.96_dp, 4.56_dp, 5.24_dp, 6.00_dp /)  ! y = x**2 + 2 x + 3
     real(kind=dp)            :: a(m,n)
-    real(kind=dp)            :: x(m)
+    real(kind=dp)            :: b(m)
     integer                  :: info
 
-    ! The 1st basis function is constant
-    a(1,:) = 1.00_dp
-    ! The 2nd basis function is identity
-    a(2,1) = 0.00_dp
-    a(2,2) = 0.00_dp
-    a(2,3) = 0.00_dp
-    a(2,4) = 0.00_dp
-    a(2,5) = 0.00_dp
-    a(2,6) = 1.00_dp
-    ! The 3rd basis function is a parabola
-    a(3,1) = 0.00_dp
-    a(3,2) = 0.00_dp
-    a(3,3) = 0.00_dp
-    a(3,4) = 0.00_dp
-    a(3,5) = 0.00_dp
-    a(3,6) = 1.00_dp
+    call bernstein_eval_basis( n, x, m - 1, a )
 
-    call nnls_solve( m, n, a, y, x, info )
-    call assert_equals( TEST, 3.0_dp, x(1), 1.0E-6_dp )
-    call assert_equals( TEST, 3.0_dp, x(2), 1.0E-6_dp )
-    call assert_equals( TEST, 0.0_dp, x(3), 1.0E-6_dp )
+    call nnls_solve( m, n, a, y, b, info )
+    call assert_equals( TEST, 3.0_dp, b(1), 1.0E-6_dp )
+    call assert_equals( TEST, 4.0_dp, b(2), 1.0E-6_dp )
+    call assert_equals( TEST, 6.0_dp, b(3), 1.0E-6_dp )
     call assert_equals( TEST, 0, info )
   end subroutine test_nnls_solve_03
 
-  !> @brief Test freely adapted from original NNLS sources.
   subroutine test_nnls_solve_04
     character(len=*), parameter :: TEST = "test_nnls_solve_04"
+
+    integer,       parameter :: m = 6
+    integer,       parameter :: n = 6
+    real(kind=dp), parameter :: x(n) = (/ 0.00_dp, 0.20_dp, 0.40_dp, 0.60_dp, 0.80_dp, 1.00_dp /)
+    real(kind=dp), parameter :: y(n) = (/ 3.00_dp, 3.44_dp, 3.96_dp, 4.56_dp, 5.24_dp, 6.00_dp /)  ! y = x**2 + 2 x + 3
+    real(kind=dp)            :: a(m,n)
+    real(kind=dp)            :: b(m)
+    integer                  :: info
+
+    call bernstein_eval_basis( n, x, m - 1, a )
+
+    call nnls_solve( m, n, a, y, b, info )
+    call assert_equals( TEST, 3.0_dp, b(1), 1.0E-6_dp )
+    call assert_equals( TEST, 3.4_dp, b(2), 1.0E-6_dp )
+    call assert_equals( TEST, 3.9_dp, b(3), 1.0E-6_dp )
+    call assert_equals( TEST, 4.5_dp, b(4), 1.0E-6_dp )
+    call assert_equals( TEST, 5.2_dp, b(5), 1.0E-6_dp )
+    call assert_equals( TEST, 6.0_dp, b(6), 1.0E-6_dp )
+    call assert_equals( TEST, 0, info )
+  end subroutine test_nnls_solve_04
+
+  !> @brief Test freely adapted from original NNLS sources.
+  subroutine test_nnls_solve_05
+    character(len=*), parameter :: TEST = "test_nnls_solve_05"
 
     integer,       parameter :: m = 19
     integer,       parameter :: n = 100
@@ -182,7 +168,7 @@ contains
     call assert_equals( TEST, 0.0_dp,   x(18), 1.0E-6_dp )
     call assert_equals( TEST, 0.0_dp,   x(19), 1.0E-6_dp )
     call assert_equals( TEST, 0, info )
-  end subroutine test_nnls_solve_04
+  end subroutine test_nnls_solve_05
 
   !! @brief Add all your test cases here.
   subroutine run_all
@@ -190,6 +176,7 @@ contains
     call run( test_nnls_solve_02 )
     call run( test_nnls_solve_03 )
     call run( test_nnls_solve_04 )
+    call run( test_nnls_solve_05 )
   end subroutine run_all
 
   !> @brief Runs a test case.
