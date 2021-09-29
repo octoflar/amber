@@ -1,6 +1,7 @@
 ![Graphical abstract](assets/img/bernstein-series.png "Series of Bernstein basis polynomials")
 
-Amber provides code to evaluate multivariate Bernstein polynomials for multivariate polynomial regression.
+Amber provides code to evaluate multivariate Bernstein polynomials for multivariate polynomial
+regression using de Casteljau's algorithm.
 
 # Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
