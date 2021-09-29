@@ -104,7 +104,7 @@ contains
     do i = 1, n - 1
       l(i + 1) = l(i) * (d(i) + 1)
     end do
-!do concurrent (k = 1:m) local(b)
+  !TODO F18: do concurrent (k = 1:m) local(b)
     do k = 1, m
       do j = 1, product( d + 1 )
         b = 0.0_dp
@@ -132,7 +132,7 @@ contains
     do i = 1, n - 1
       l(i + 1) = l(i) * (d(i) + 1)
     end do
-!do concurrent (k = 1:m) local(b)
+  !TODO F18: do concurrent (k = 1:m) local(b)
     do k = 1, m
       do j = 1, product( d + 1 )
         b = 0.0_dp
@@ -193,7 +193,7 @@ contains
     do i = 1, n - 1
       l(i + 1) = l(i) * (d(i) + 1)
     end do
-!do concurrent (j = 1:m) local(b)
+  !TODO F18: do concurrent (j = 1:m) local(b)
     do j = 1, m
       b = c
       do i = n, 1, -1
