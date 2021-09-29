@@ -1,6 +1,6 @@
 ![Graphical abstract](assets/img/bernstein-series.png "Series of Bernstein basis polynomials")
 
-Amber provides code to evaluate multivariate Bernstein polynomials for function approximation.
+Amber provides code to evaluate multivariate Bernstein polynomials for multivariate polynomial regression.
 
 # Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
