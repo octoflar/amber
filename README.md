@@ -1,8 +1,8 @@
 ![Graphical abstract](assets/img/bernstein-series.png "Series of Bernstein basis polynomials")
 
-Amber provides code to evaluate multivariate Bernstein polynomials.
+Amber provides code to evaluate multivariate Bernstein polynomials for function approximation.
 
-# Getting started
+# Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
 Building this software requires [CMake](https://cmake.org) and a compiler that implements
 the Fortran 2008 standard.
