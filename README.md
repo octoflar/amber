@@ -5,9 +5,8 @@ Amber provides code to evaluate multivariate Bernstein polynomials for multivari
 # Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
 Building this software requires [CMake](https://cmake.org) and a compiler that implements
-the Fortran 2008 standard.
-
-To build and run the matrix tests `cd` into the project root directory and type:
+the Fortran 2008 standard. To build the code and run the tests `cd` into the project root
+directory and type:
 
     mkdir cmake-build
     cd cmake-build
@@ -23,5 +22,6 @@ To use a specific Fortran compiler set the `FC` and `CC` environment variables, 
 
 # Further reading
 
-Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein–Bezier form." Journal of Approximation Theory 143, 44–61. <https://doi.org/10.1016/j.jat.2006.05.007>.
+Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein–Bezier form."
+Journal of Approximation Theory 143, 44–61. <https://doi.org/10.1016/j.jat.2006.05.007>.
 
