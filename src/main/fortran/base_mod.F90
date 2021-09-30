@@ -6,18 +6,18 @@
 module base_mod
   implicit none
   private
-  public :: sp, dp, mp, ck
+  public :: sp, dp, wp, xp
 
-  ! at least IEEE S_floating ("single precision")
+  !> IEEE S_floating ("single precision")
   integer, parameter :: sp = selected_real_kind(p= 6,r= 37)
 
-  ! at least IEEE T_floating ("double precision")
+  !> IEEE T_floating ("double precision")
   integer, parameter :: dp = selected_real_kind(p=15,r=307)
 
-  ! "my" precision -- use this to set/switch precision globally
-  integer, parameter :: mp = dp
+  !> Working precision
+  integer, parameter :: wp = dp
 
-  ! precision of coordinates
-  integer, parameter :: ck = sp
+  !> Data precision
+  integer, parameter :: xp = sp
 
 end module base_mod
