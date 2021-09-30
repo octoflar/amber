@@ -11,7 +11,7 @@ directory and type:
 
     mkdir cmake-build
     cd cmake-build
-    cmake -DCMAKE_BUILD_TYPE=(Release|Debug) ..
+    cmake -DCMAKE_BUILD_TYPE=Release ..
     make all test
 
 To use a specific Fortran compiler set the `FC` and `CC` environment variables, like
