@@ -27,6 +27,7 @@ jobs:
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         env:
           FC: gfortran
+          CC: gcc
 
       - name: Build
         # Build your program with the given configuration
