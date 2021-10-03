@@ -1,7 +1,7 @@
 ![Graphical abstract](assets/img/bernstein-series.png "Series of Bernstein basis polynomials")
 
-Amber provides code to evaluate multivariate Bernstein polynomials using de Casteljau's algorithm
-and code for linear multivariate polynomial regression with linear inequality constraints.
+Amber provides code to evaluate multivariate Bernstein polynomials using de Casteljau's algorithm.
+Code for linear multivariate polynomial regression with linear inequality constraints is included.
 
 # Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
