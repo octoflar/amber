@@ -4,6 +4,9 @@
 !> @copyright MIT License
 !> @brief Module to solve non-negative least squares (NNLS) problems.
 !>
+!> Charles L. Lawson and Richard J. Hanson (1995). "Solving Least Squares Problems."
+!> <https://doi.org/10.1137/1.9781611971217>.
+!>
 !> Alan Bridle (National Radio Astronomy Observatory, NRAO) on NNLS:
 !>
 !> "NNLS distinguishes itself on bright, compact sources that neither
@@ -20,7 +23,7 @@
 !> applicable."
 !>
 !> "An interesting thing about NNLS is that it is solved iteratively, but
-!> as Lawson and Hanson (1983) show, the iteration always converges and
+!> as Lawson and Hanson (1995) show, the iteration always converges and
 !> terminates. There is no cutoff in iteration required. Sometimes it might
 !> run too long, and have to be terminated, but the solution will still be
 !> fairly good, since the solution improves smoothly with iteration. Noise,
