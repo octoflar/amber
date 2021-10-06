@@ -1,8 +1,9 @@
 ![Graphical abstract](assets/img/bernstein-series.png "Series of Bernstein basis polynomials")
 
 Amber provides code to evaluate multivariate Bernstein polynomials using [De Casteljau's
-algorithm](https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm). Bernstein polynomials
-are useful for, e.g., linear multivariate regression with linear inequality constraints. 
+algorithm](https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm). Multivariate Bernstein
+basis polynomials are useful for, e.g., linear multivariate regression with linear inequality
+constraints. 
 
 # Getting started [![CMake](https://github.com/octoflar/amber/actions/workflows/cmake.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/cmake.yml)
  
