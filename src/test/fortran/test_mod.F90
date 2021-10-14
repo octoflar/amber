@@ -1,6 +1,6 @@
 !> @file test_mod.F90
 !> @author Ralf Quast
-!> @data 2021
+!> @date 2021
 !> @copyright MIT License
 !> @brief Module for unit-level testing in the style of [JUnit](http://junit.org/)
 module test_mod

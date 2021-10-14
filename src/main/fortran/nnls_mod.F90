@@ -1,6 +1,6 @@
 !> @file nnls_mod.F90
 !> @author Ralf Quast
-!> @data 2021
+!> @date 2021
 !> @copyright MIT License
 !> @brief Module to solve non-negative least squares (NNLS) problems.
 !>

@@ -1,6 +1,6 @@
 !> @file bernstein_mod.F90
 !> @author Ralf Quast
-!> @data 2021
+!> @date 2021
 !> @copyright MIT License
 !> @brief Module for evaluating multivariate Bernstein polynomials.
 !>

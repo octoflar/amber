@@ -1,6 +1,6 @@
 !> @file nnls_mod_test.F90
 !> @author Ralf Quast
-!> @data 2021
+!> @date 2021
 !> @copyright MIT License
 module nnls_mod_testsuite
   use test_mod

@@ -1,6 +1,6 @@
 !> @file base_mod.F90
 !> @author Ralf Quast
-!> @data 2021
+!> @date 2021
 !> @copyright MIT License
 !> @brief Numerical constants
 module base_mod
