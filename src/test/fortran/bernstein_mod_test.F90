@@ -35,6 +35,7 @@ contains
   end subroutine after
 
   subroutine test_bernstein_eval_basis_01
+    implicit none
     character(len=*), parameter :: TEST = "test_bernstein_eval_basis_01"
 
     integer, parameter :: m = 3
@@ -61,13 +62,15 @@ contains
   end subroutine test_bernstein_eval_basis_01
 
   subroutine test_bernstein_eval_basis_n_01
+    implicit none
     character(len=*), parameter :: TEST = "test_bernstein_eval_basis_n_01"
 
     integer, parameter :: n = 1
     integer, parameter :: m = 3
     integer, parameter :: d(n) = 4
+    integer, parameter :: o = product( d + 1 )
     real(kind=dp),    parameter :: x(n,m) = reshape( (/ 0.0_dp, 0.5_dp, 1.0_dp /), (/ n, m /) )
-    real(kind=dp)               :: y(product( d + 1 ),m)
+    real(kind=dp)               :: y(o,m)
 
     call bernstein_eval_basis_n( n, m, x, d, y )
     call assert_equals( TEST, 1.0_dp,    y(1,1), 1.0E-6_dp )
@@ -94,8 +97,9 @@ contains
     integer, parameter :: n = 2
     integer, parameter :: m = 3
     integer, parameter :: d(n) = (/ 4, 2 /)
+    integer, parameter :: o = product( d + 1 )
     real(kind=dp)               :: x(n,m)
-    real(kind=dp)               :: y(product( d + 1 ),m)
+    real(kind=dp)               :: y(o,m)
 
     x(:,1) = (/ 0.0_dp, 0.0_dp /)
     x(:,2) = (/ 0.5_dp, 0.5_dp /)
@@ -202,7 +206,8 @@ contains
     integer, parameter :: n = 1
     integer, parameter :: m = 3
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp),    parameter :: x(n,m) = reshape( (/ 0.0_dp, 0.5_dp, 1.0_dp /), (/ n, m /) )
     real(kind=dp)               :: y(m)
 
@@ -218,7 +223,8 @@ contains
     integer, parameter :: n = 1
     integer, parameter :: m = 3
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp),    parameter :: x(n,m) = reshape( (/ 0.0_dp, 0.5_dp, 1.0_dp /), (/ n, m /) )
     real(kind=dp)               :: y(m)
 
@@ -234,7 +240,8 @@ contains
     integer, parameter :: n = 1
     integer, parameter :: m = 3
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = (/ 1.0_dp, 2.0_dp, 3.0_dp, 4.0_dp, 5.0_dp /)
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = (/ 1.0_dp, 2.0_dp, 3.0_dp, 4.0_dp, 5.0_dp /)
     real(kind=dp),    parameter :: x(n,m) = reshape( (/ 0.3141_dp, 0.2718_dp, 0.5772_dp /), (/ n, m /) )
     real(kind=dp)               :: y(m)
 
@@ -250,7 +257,8 @@ contains
     integer, parameter :: n = 2
     integer, parameter :: m = 5
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -274,7 +282,8 @@ contains
     integer, parameter :: n = 2
     integer, parameter :: m = 5
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -298,7 +307,8 @@ contains
     integer, parameter :: n = 2
     integer, parameter :: m = 2
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp)               :: c(product( d + 1 ))
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp)               :: c(o)
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -317,7 +327,8 @@ contains
     integer, parameter :: n = 3
     integer, parameter :: m = 9
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -349,7 +360,8 @@ contains
     integer, parameter :: n = 3
     integer, parameter :: m = 9
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -381,7 +393,8 @@ contains
     integer, parameter :: n = 3
     integer, parameter :: m = 3
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp)               :: c(product( d + 1 ))
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp)               :: c(o)
     real(kind=dp)               :: x(n,m)
     real(kind=dp)               :: y(m)
 
@@ -688,7 +701,8 @@ contains
 
     integer, parameter :: n = 1
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp)               :: x(n)
 
     x = 0.0_dp
@@ -706,7 +720,8 @@ contains
 
     integer, parameter :: n = 1
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp)               :: x(n)
 
     x = 0.0_dp
@@ -724,7 +739,8 @@ contains
 
     integer, parameter :: n = 1
     integer, parameter :: d(n) = 4
-    real(kind=dp),    parameter :: c(product( d + 1 )) = (/ 1.0_dp, 2.0_dp, 3.0_dp, 4.0_dp, 5.0_dp /)
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = (/ 1.0_dp, 2.0_dp, 3.0_dp, 4.0_dp, 5.0_dp /)
     real(kind=dp)               :: x(n)
 
     x = 0.3141_dp
@@ -742,7 +758,8 @@ contains
 
     integer, parameter :: n = 2
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp)               :: x(n)
 
     x = (/ 0.0_dp, 0.0_dp /)
@@ -766,7 +783,8 @@ contains
 
     integer, parameter :: n = 2
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp)               :: x(n)
 
     x = (/ 0.0_dp, 0.0_dp /)
@@ -790,7 +808,8 @@ contains
 
     integer, parameter :: n = 2
     integer, parameter :: d(n) = (/ 4, 3 /)
-    real(kind=dp)               :: c(product( d + 1 ))
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp)               :: c(o)
     real(kind=dp)               :: x(n)
 
     call fill__dp( n, d, c )
@@ -807,7 +826,8 @@ contains
 
     integer, parameter :: n = 3
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 0.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 0.0_dp
     real(kind=dp)               :: x(n)
 
     x = (/ 0.0_dp, 0.0_dp, 0.0_dp /)
@@ -843,7 +863,8 @@ contains
 
     integer, parameter :: n = 3
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp),    parameter :: c(product( d + 1 )) = 1.0_dp
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp),    parameter :: c(o) = 1.0_dp
     real(kind=dp)               :: x(n)
 
     x = (/ 0.0_dp, 0.0_dp, 0.0_dp /)
@@ -879,7 +900,8 @@ contains
 
     integer, parameter :: n = 3
     integer, parameter :: d(n) = (/ 4, 3, 2 /)
-    real(kind=dp)               :: c(product( d + 1 ))
+    integer, parameter :: o = product( d + 1 )
+    real(kind=dp)               :: c(o)
     real(kind=dp)               :: x(n)
 
     call fill__dp( n, d, c )
