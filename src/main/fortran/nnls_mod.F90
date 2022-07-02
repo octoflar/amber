@@ -43,11 +43,11 @@ module nnls_mod
 contains
 
   !> @brief Solves a linear optimization problem (A**T x = y) subject to x >= 0.
-  !> @param m[in] The number of basis functions.
-  !> @param n[in] The number of data points.
-  !> @param a[in] The basis functions evaluated at the data points.
-  !> @param y[in] The objective function evaluated the data points.
-  !> @param x[out] The optimised linear coefficients.
+  !> @param[in] m The number of basis functions.
+  !> @param[in] n The number of data points.
+  !> @param[in] a The basis functions evaluated at the data points.
+  !> @param[in] y The objective function evaluated the data points.
+  !> @param[out] x The optimised linear coefficients.
   !> @param info[out] Status information. Equal to zero, if no error has occurred.
   subroutine nnls_solve__dp( m, n, a, y, x, info )
     use base_mod, only: dp
@@ -95,19 +95,19 @@ contains
   !> The translation into Fortran 90 by Alan Miller, February 1997
   !> Latest revision - 15 April 1997
   !>
-  !> @param a[inout] On entry contains the matrix A. On exit contains the
+  !> @param[inout] a On entry contains the matrix A. On exit contains the
   !>        matrix product Q * A, where Q is an orthogonal \m by \m matrix
   !>        generated implicitly by this subroutine.
-  !> @param m[in] The number of rows in the matrix A.
-  !> @param n[in] The number of columns in the matrix A.
-  !> @param b[inout] On entry contains the \c m vector B. On exit contains Q * B.
-  !> @param x[out] The solution vector.
-  !> @param rnorm[out] The Euclidean norm of the residual vector.
-  !> @param w[out] An \c n array of working space. On exit \c w will contain the dual
+  !> @param[in] m The number of rows in the matrix A.
+  !> @param[in] n The number of columns in the matrix A.
+  !> @param[inout] b On entry contains the \c m vector B. On exit contains Q * B.
+  !> @param[out] x The solution vector.
+  !> @param[out] rnorm The Euclidean norm of the residual vector.
+  !> @param[out] w An \c n array of working space. On exit \c w will contain the dual
   !>        solution vector, which will satisfy \c w(i) \c = \c 0 for all \c i in set P
   !>        and \c w(i) \c <= \c 0 for all \c i in set Z.
-  !> @param indx[out] An integer working array of length at least \c n.
-  !> @param mode[out] A success-failure flag with the meanings:
+  !> @param[out] indx An integer working array of length at least \c n.
+  !> @param[out] mode A success-failure flag with the meanings:
   !>        (1) the solution has been computed successfully,
   !>        (2) the dimensions \c m or \c n are negative,
   !>        (3) the maximum number of iterations (\c 3 \c n) has been exceeded.
@@ -379,34 +379,34 @@ contains
   !> "SOLVING LEAST SQUARES PROBLEMS", Prentice-HalL, 1974.
   !> Revised FEB 1995 to accompany reprinting of the book by SIAM.
   !>
-  !> @param mode[in] The modes 1 or 2 select algorithm H1 to construct and apply a
+  !> @param[in] mode The modes 1 or 2 select algorithm H1 to construct and apply a
   !>        Householder transformation, or algorithm H2 to apply a
   !>        previously constructed transformation, respectively.
-  !> @param lpivot[in] is the index of the pivot element.
-  !> @param l1[in] If \c l1 is less than or equal to \c m the transformation will be constructed to
+  !> @param[in] lpivot is the index of the pivot element.
+  !> @param[in] l1 If \c l1 is less than or equal to \c m the transformation will be constructed to
   !>        zero elements indexed from \c l1 through \c m. If \c l1 is greater than \c m
   !>        the subroutine does an identity transformation.
-  !> @param m[in] If \c l1 is less than or equal \c m the transformation will be constructed to
+  !> @param[in] m If \c l1 is less than or equal \c m the transformation will be constructed to
   !>        zero elements indexed from \c l1 through \c m. If \c l1 is greater than \c m
   !>        the subroutine does an identity transformation.
-  !> @param u[inout] On entry with \c mode equal to 1, \c u contains the pivot
+  !> @param[inout] u On entry with \c mode equal to 1, \c u contains the pivot
   !>        vector. On exit when \c mode equal to 1, \c u and \c up contain quantities
   !>        defining the vector u of the Householder transformation.
   !>        On entry with \c mode equal to 2, \c u and \c up should contain
   !>        quantities previously computed with \c mode equal to 1. These will
   !>        not be modified during the entry with \c mode equal to 2.
-  !> @param up[inout] On exit when \c mode is equal to 1, \c u and \c up contain quantities
+  !> @param[inout] up On exit when \c mode is equal to 1, \c u and \c up contain quantities
   !>        defining the vector u of the Householder transformation.
   !>        On entry with \c mode equal to 2, \c u and \c up should contain
   !>        quantities previously computed with \c mode equal to 1. These will
   !>        not be modified during the entry with \c mode equal to 2.
-  !> @param c[inout] On entry with \c mode \c equal to 1 or 2, \c c contains a matrix,
+  !> @param[inout] c On entry with \c mode \c equal to 1 or 2, \c c contains a matrix,
   !>        which will be regarded as a set of vectors to which the
   !>        Householder transformation is to be applied.
   !>        on exit \c c contains the set of transformed vectors.
-  !> @param ice[in] The storage increment between elements of vectors in \c c.
-  !> @param icv[in] The storage increment between vectors in \c c.
-  !> @param ncv[in] The number of vectors in \c c to be transformed. If \c ncv is less
+  !> @param[in] ice The storage increment between elements of vectors in \c c.
+  !> @param[in] icv The storage increment between vectors in \c c.
+  !> @param[in] ncv The number of vectors in \c c to be transformed. If \c ncv is less
   !>        than or equal to 0 no operations will be done on \c c.
   pure subroutine h12__dp(mode, lpivot, l1, m, u, up, c, ice, icv, ncv)
     use base_mod, only: dp

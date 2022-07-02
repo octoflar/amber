@@ -77,8 +77,8 @@ contains
   end subroutine test_initialize
 
   !> @brief Asserts that a logical expression is '.true.'.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value of the logical expression.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value of the logical expression.
   subroutine assert_true( test, actual )
     character(len=*), intent(in) :: test
     logical, intent(in) :: actual
@@ -96,8 +96,8 @@ contains
   end subroutine assert_true
 
   !> @brief Asserts that a logical expression is '.false.'.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value of the logical expression.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value of the logical expression.
   subroutine assert_false( test, actual )
     character(len=*), intent(in) :: test
     logical, intent(in) :: actual
@@ -115,9 +115,9 @@ contains
   end subroutine assert_false
 
   !> @brief Asserts that two logical expressions are equivalent.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value of the logical expression.
-  !> @param actual[in] The actual value of the logical expression.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value of the logical expression.
+  !> @param[in] actual The actual value of the logical expression.
   subroutine assert_equivalent( test, expected, actual )
     character(len=*), intent(in) :: test
     logical, intent(in) :: expected
@@ -136,9 +136,9 @@ contains
   end subroutine assert_equivalent
 
   !> @brief Asserts that two logical expressions are not equivalent.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value of the logical expression.
-  !> @param actual[in] The actual value of the logical expression.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value of the logical expression.
+  !> @param[in] actual The actual value of the logical expression.
   subroutine assert_not_equivalent( test, expected, actual )
     character(len=*), intent(in) :: test
     logical, intent(in) :: expected
@@ -157,9 +157,9 @@ contains
   end subroutine assert_not_equivalent
 
   !> @brief Asserts that two integral numbers are equal.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
   subroutine assert_equals_int( test, expected, actual )
     character(len=*), intent(in) :: test
     integer, intent(in) :: expected
@@ -178,9 +178,9 @@ contains
   end subroutine assert_equals_int
 
   !> @brief Asserts that two integral numbers are not equal.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
   subroutine assert_not_equals_int( test, expected, actual )
     character(len=*), intent(in) :: test
     integer, intent(in) :: expected
@@ -199,10 +199,10 @@ contains
   end subroutine assert_not_equals_int
 
   !> @brief Asserts that two real numbers are equal within a given tolerance.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
-  !> @param tolerance[in] The absolute tolerance.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
+  !> @param[in] tolerance The absolute tolerance.
   subroutine assert_equals_real__dp( test, expected, actual, tolerance )
     use base_mod, only: dp
 
@@ -225,10 +225,10 @@ contains
   end subroutine assert_equals_real__dp
 
   !> @brief Asserts that two real numbers are equal within a given tolerance.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
-  !> @param tolerance[in] The absolute tolerance.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
+  !> @param[in] tolerance The absolute tolerance.
   subroutine assert_equals_real__sp( test, expected, actual, tolerance )
     use base_mod, only: sp
 
@@ -251,10 +251,10 @@ contains
   end subroutine assert_equals_real__sp
 
   !> @brief Asserts that two real numbers are not equal.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
-  !> @param tolerance[in] The absolute tolerance.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
+  !> @param[in] tolerance The absolute tolerance.
   subroutine assert_not_equals_real__dp( test, expected, actual, tolerance )
     use base_mod, only: dp
 
@@ -277,10 +277,10 @@ contains
   end subroutine assert_not_equals_real__dp
 
   !> @brief Asserts that two real numbers are not equal.
-  !> @param test[in] The name of the caller.
-  !> @param expected[in] The expected value.
-  !> @param actual[in] The actual value.
-  !> @param tolerance[in] The absolute tolerance.
+  !> @param[in] test The name of the caller.
+  !> @param[in] expected The expected value.
+  !> @param[in] actual The actual value.
+  !> @param[in] tolerance The absolute tolerance.
   subroutine assert_not_equals_real__sp( test, expected, actual, tolerance )
     use base_mod, only: sp
 
@@ -303,8 +303,8 @@ contains
   end subroutine assert_not_equals_real__sp
 
   !> @brief Asserts that a real number is NaN.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value.
   subroutine assert_nan__dp( test, actual )
     use base_mod, only: dp
 
@@ -324,8 +324,8 @@ contains
   end subroutine assert_nan__dp
 
   !> @brief Asserts that a real number is NaN.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value.
   subroutine assert_nan__sp( test, actual )
     use base_mod, only: sp
 
@@ -345,8 +345,8 @@ contains
   end subroutine assert_nan__sp
 
   !> @brief Asserts that a real number is not NaN.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value.
   subroutine assert_not_nan__dp( test, actual )
     use base_mod, only: dp
 
@@ -366,8 +366,8 @@ contains
   end subroutine assert_not_nan__dp
 
   !> @brief Asserts that a real number is not NaN.
-  !> @param test[in] The name of the caller.
-  !> @param actual[in] The actual value.
+  !> @param[in] test The name of the caller.
+  !> @param[in] actual The actual value.
   subroutine assert_not_nan__sp( test, actual )
     use base_mod, only: sp
 

@@ -64,10 +64,10 @@ module bernstein_mod
 contains
 
   !> @brief Evaluates an univariate Bernstein basis at many abscissa values.
-  !> @param m[in] The number of abscissa values.
-  !> @param x[in] The abscissa values in the unit interval [0,1].
-  !> @param d[in] The degree of the Bernstein basis polynomials.
-  !> @param y[out] The evaluated Bernstein basis polynomials.
+  !> @param[in] m The number of abscissa values.
+  !> @param[in] x The abscissa values in the unit interval [0,1].
+  !> @param[in] d The degree of the Bernstein basis polynomials.
+  !> @param[out] y The evaluated Bernstein basis polynomials.
   !> @details The arguments are not checked.
   pure subroutine bernstein_eval_basis__dp( m, x, d, y )
     implicit none
@@ -83,11 +83,11 @@ contains
   end subroutine bernstein_eval_basis__dp
 
   !> @brief Evaluates an n-variate Bernstein basis at many points.
-  !> @param n[in] The dimension.
-  !> @param m[in] The number of points.
-  !> @param x[in] The points in the unit n-cube.
-  !> @param d[in] The degrees of the Bernstein basis polynomials.
-  !> @param y[out] The evaluated Bernstein basis polynomials.
+  !> @param[in] n The dimension.
+  !> @param[in] m The number of points.
+  !> @param[in] x The points in the unit n-cube.
+  !> @param[in] d The degrees of the Bernstein basis polynomials.
+  !> @param[out] y The evaluated Bernstein basis polynomials.
   !> @details The arguments are not checked.
   pure subroutine bernstein_eval_basis_n__dp( n, m, x, d, y )
     implicit none
@@ -146,11 +146,11 @@ contains
   end subroutine bernstein_eval_basis_n__sp
 
   !> @brief Evaluates an univariate Bernstein polynomial at many abscissa values.
-  !> @param m[in] The number of abscissa values.
-  !> @param x[in] The abscissa values in the unit interval [0,1].
-  !> @param d[in] The degree of the Bernstein polynomial.
-  !> @param c[in] The Bernstein coefficients.
-  !> @param y[out] The evaluated Bernstein polynomial.
+  !> @param[in] m The number of abscissa values.
+  !> @param[in] x The abscissa values in the unit interval [0,1].
+  !> @param[in] d The degree of the Bernstein polynomial.
+  !> @param[in] c The Bernstein coefficients.
+  !> @param[out] y The evaluated Bernstein polynomial.
   !> @details The arguments are not checked.
   pure subroutine bernstein_eval_poly__dp( m, x, d, c, y )
     implicit none
@@ -170,12 +170,12 @@ contains
   end subroutine bernstein_eval_poly__dp
 
   !> @brief Evaluates an n-variate Bernstein polynomial at many points.
-  !> @param n[in] The dimension.
-  !> @param m[in] The number of points in the unit n-cube.
-  !> @param x[in] The points.
-  !> @param d[in] The degrees of the Bernstein polynomial.
-  !> @param c[in] The Bernstein coefficients.
-  !> @param y[out] The evaluated Bernstein polynomial.
+  !> @param[in] n The dimension.
+  !> @param[in] m The number of points in the unit n-cube.
+  !> @param[in] x The points.
+  !> @param[in] d The degrees of the Bernstein polynomial.
+  !> @param[in] c The Bernstein coefficients.
+  !> @param[out] y The evaluated Bernstein polynomial.
   !> @details The arguments are not checked.
   pure subroutine bernstein_eval_poly_n__dp( n, m, x, d, c, y )
     implicit none
@@ -204,10 +204,10 @@ contains
   end subroutine bernstein_eval_poly_n__dp
 
   !> @brief Increments the degree of an univariate Bernstein polynomial.
-  !> @param incr[in] The increment.
-  !> @param d[in] The original degree of the Bernstein polynomial.
-  !> @param b[in] The original Bernstein coefficients.
-  !> @param c[out] The new Bernstein coefficients of the equivalent higher-degree polynomial.
+  !> @param[in] incr The increment.
+  !> @param[in] d The original degree of the Bernstein polynomial.
+  !> @param[in] b The original Bernstein coefficients.
+  !> @param[out] c The new Bernstein coefficients of the equivalent higher-degree polynomial.
   !> @details The arguments are not checked.
   pure subroutine bernstein_incr_degree__dp( incr, d, b, c )
     implicit none
@@ -231,11 +231,11 @@ contains
   end subroutine bernstein_incr_degree__dp
 
   !> @brief Increments the degree of an n-variate Bernstein polynomial.
-  !> @param n[in] The dimension.
-  !> @param incr[in] The increments.
-  !> @param d[in] The original degree of the Bernstein polynomial.
-  !> @param b[in] The original Bernstein coefficients.
-  !> @param c[out] The new Bernstein coefficients of the equivalent higher-degree polynomial.
+  !> @param[in] n The dimension.
+  !> @param[in] incr The increments.
+  !> @param[in] d The original degree of the Bernstein polynomial.
+  !> @param[in] b The original Bernstein coefficients.
+  !> @param[out] c The new Bernstein coefficients of the equivalent higher-degree polynomial.
   !> @details The arguments are not checked.
   pure subroutine bernstein_incr_degree_n__dp( n, incr, d, b, c )
     implicit none
@@ -308,9 +308,9 @@ contains
   end subroutine bernstein_incr_degree_n_i__dp
 
   !> @brief Returns the value of an univariate Bernstein polynomial at a single abscissa value.
-  !> @param x[in] The abscissa value in the unit interval [0,1].
-  !> @param d[in] The degree of the Bernstein polynomial.
-  !> @param c[in] The Bernstein coefficients.
+  !> @param[in] x The abscissa value in the unit interval [0,1].
+  !> @param[in] d The degree of the Bernstein polynomial.
+  !> @param[in] c The Bernstein coefficients.
   !> @return The value of the Bernstein polynomial.
   !> @details The arguments are not checked.
   !> @details The arguments are not checked.
@@ -328,10 +328,10 @@ contains
   end function bernstein_poly__dp
 
   !> @brief Returns the value of an n-variate Bernstein polynomial at a single point.
-  !> @param n[in] The dimension.
-  !> @param x[in] The point within the unit n-cube.
-  !> @param d[in] The degrees of the n-variate Bernstein polynomial.
-  !> @param c[in] The Bernstein coefficients.
+  !> @param[in] n The dimension.
+  !> @param[in] x The point within the unit n-cube.
+  !> @param[in] d The degrees of the n-variate Bernstein polynomial.
+  !> @param[in] c The Bernstein coefficients.
   !> @return The value of the Bernstein polynomial.
   !> @details The arguments are not checked.
   pure function bernstein_poly_n__dp( n, x, d, c ) result(y)
@@ -357,9 +357,9 @@ contains
   end function bernstein_poly_n__dp
 
   !> @brief Evaluates the de Casteljau algorithm at a single abscissa value.
-  !> @param x[in] The abscissa value in the unit interval [0,1].
-  !> @param d[in] The degree of the Bernstein polynomial.
-  !> @param b[inout] The Bernstein coefficients.
+  !> @param[in] x The abscissa value in the unit interval [0,1].
+  !> @param[in] d The degree of the Bernstein polynomial.
+  !> @param[inout] b The Bernstein coefficients.
   !> @details The arguments are not checked.
   pure subroutine eval_de_casteljau__dp( x, d, b )
     implicit none
@@ -381,10 +381,10 @@ contains
 
   !> @brief Evaluates the de Casteljau algorithm along the n-th dimension of an n-variate
   !! Bernstein batch at a single abscissa value.
-  !> @param x[in] The abscissa value.
-  !> @param d[in] The n-th degree of the Bernstein polynomial.
-  !> @param l[in] The n-th stride in the Bernstein batch.
-  !> @param b[inout] The Bernstein batch.
+  !> @param[in] x The abscissa value.
+  !> @param[in] d The n-th degree of the Bernstein polynomial.
+  !> @param[in] l The n-th stride in the Bernstein batch.
+  !> @param[inout] b The Bernstein batch.
   !> @details The arguments are not checked.
   pure subroutine eval_de_casteljau_n__dp( x, d, l, b )
     implicit none
@@ -429,10 +429,10 @@ contains
   end subroutine eval_de_casteljau_n__sp
 
   !> @brief Evaluates the de Casteljau algorithm at many abscissa values.
-  !> @param m[in] The number of abscissa values.
-  !> @param x[in] The abscissa values.
-  !> @param d[in] The degree of the Bernstein polynomial.
-  !> @param b[inout] The Bernstein coefficients.
+  !> @param[in] m The number of abscissa values.
+  !> @param[in] x The abscissa values.
+  !> @param[in] d The degree of the Bernstein polynomial.
+  !> @param[inout] b The Bernstein coefficients.
   !> @details The arguments are not checked.
   pure subroutine eval_de_casteljau_many__dp( m, x, d, b )
     implicit none
@@ -455,10 +455,10 @@ contains
 
   !> @brief Evaluates the de Casteljau algorithm along the n-th dimension of an n-variate
   !! Bernstein batch at many abscissa values.
-  !> @param x[in] The abscissa values.
-  !> @param d[in] The n-th degree of the Bernstein polynomial.
-  !> @param l[in] The n-th stride in the Bernstein batch.
-  !> @param b[inout] The Bernstein batch.
+  !> @param[in] x The abscissa values.
+  !> @param[in] d The n-th degree of the Bernstein polynomial.
+  !> @param[in] l The n-th stride in the Bernstein batch.
+  !> @param[inout] b The Bernstein batch.
   !> @details The arguments are not checked.
   pure subroutine eval_de_casteljau_many_n__dp( m, x, d, l, b )
     implicit none
@@ -485,9 +485,9 @@ contains
   end subroutine eval_de_casteljau_many_n__dp
 
   !> @brief Evaluates the de Casteljau algorithm for all Bernstein basis polynomials at a single abscissa value.
-  !> @param x[in] The abscissa value.
-  !> @param d[in] The degree of the Bernstein basis polynomials.
-  !> @param b[out] The evaluated Bernstein basis polynomials.
+  !> @param[in] x The abscissa value.
+  !> @param[in] d The degree of the Bernstein basis polynomials.
+  !> @param[out] b The evaluated Bernstein basis polynomials.
   !> @details The arguments are not checked.
   pure subroutine eval_de_casteljau_basis__dp( x, d, y )
     implicit none
