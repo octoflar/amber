@@ -1,0 +1,20 @@
+name: tf2-nomkl
+channels:
+  - conda-forge
+dependencies:
+  - python >= 3.10
+  - keras
+  - numpy
+  - scipy
+  - netcdf4
+  - h5py
+  - matplotlib
+  - pandas
+  - geopandas
+  - jupyterlab
+  - tensorflow >= 2.10
+  - tensorflow-probability >= 0.18.0
+  - scikit-learn
+  - seaborn
+  - cartopy
+  - xarray
