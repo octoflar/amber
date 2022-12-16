@@ -22,6 +22,7 @@ import numpy as np
 
 
 class B:
+    """Uni- and multivariate Bernstein polynomials."""
 
     @staticmethod
     def basis(d: int, x: np.ndarray, y: np.ndarray):
@@ -33,18 +34,6 @@ class B:
         :param y: The evaluated Bernstein basis.
         """
         B.poly(d, np.identity(d + 1, dtype=x.dtype), x, y)
-
-    @staticmethod
-    def t1_basis(d: int, x: np.ndarray, t1_x: np.ndarray, y: np.ndarray, t1_y: np.ndarray):
-        """The univariate tangent-linear Bernstein basis model.
-
-        :param d: The degree of the Bernstein polynomial.
-        :param x: The coordinate values.
-        :param t1_x: The tangent-linear extension.
-        :param y: The evaluated Bernstein basis.
-        :param t1_y: The tangent-linear extension.
-        """
-        B.t1_poly(d, np.identity(d + 1, dtype=x.dtype), x, t1_x, y, t1_y)
 
     @staticmethod
     def poly(d: int, c: np.ndarray, x: np.ndarray, y: np.ndarray):
@@ -60,6 +49,33 @@ class B:
         b = np.repeat(c, m).reshape(np.shape(c) + m)
         B._de_casteljau(d, b, x)
         y[:] = b[0]
+
+    @staticmethod
+    def poly_n(d: np.ndarray, c: np.ndarray, x: np.ndarray, y: np.ndarray):
+        """Evaluates an n-variate Bernstein polynomial at given coordinate
+        vectors x in the unit n-cube.
+
+        :param d: The degrees of the Bernstein polynomial.
+        :param c: The Bernstein coefficients.
+        :param x: The coordinate vectors.
+        :param y: The evaluated Bernstein polynomial.
+        """
+        n, m = np.shape(x)
+        b = np.repeat(c, m).reshape(np.shape(c) + (m,))
+        B._de_casteljau_n(d, b, x)
+        y[:] = b[0]
+
+    @staticmethod
+    def t1_basis(d: int, x: np.ndarray, t1_x: np.ndarray, y: np.ndarray, t1_y: np.ndarray):
+        """The univariate tangent-linear Bernstein basis model.
+
+        :param d: The degree of the Bernstein polynomial.
+        :param x: The coordinate values.
+        :param t1_x: The tangent-linear extension.
+        :param y: The evaluated Bernstein basis.
+        :param t1_y: The tangent-linear extension.
+        """
+        B.t1_poly(d, np.identity(d + 1, dtype=x.dtype), x, t1_x, y, t1_y)
 
     @staticmethod
     def t1_poly(d: int, c: np.ndarray,
@@ -79,21 +95,6 @@ class B:
         t1_b = np.zeros(np.shape(b))
         B._t1_de_casteljau(d, b, t1_b, x, t1_x)
         t1_y[:] = t1_b[0]
-        y[:] = b[0]
-
-    @staticmethod
-    def poly_n(d: np.ndarray, c: np.ndarray, x: np.ndarray, y: np.ndarray):
-        """Evaluates an n-variate Bernstein polynomial at given coordinate
-        vectors x in the unit n-cube.
-
-        :param d: The degrees of the Bernstein polynomial.
-        :param c: The Bernstein coefficients.
-        :param x: The coordinate vectors.
-        :param y: The evaluated Bernstein polynomial.
-        """
-        n, m = np.shape(x)
-        b = np.repeat(c, m).reshape(np.shape(c) + (m,))
-        B._de_casteljau_n(d, b, x)
         y[:] = b[0]
 
     @staticmethod
@@ -128,6 +129,20 @@ class B:
             B._op(b, x, j)
 
     @staticmethod
+    def _de_casteljau_n(d: np.ndarray, b: np.ndarray, x: np.ndarray):
+        """The n-variate de Casteljau algorithm.
+
+        :param d: The degrees of the Bernstein polynomial.
+        :param b: The Bernstein batch.
+        :param x: The coordinate vectors.
+        """
+        s = B._strides(d)
+        z = zip(d * s, s, x)
+        for d, s, x, in z:
+            for j in range(d, 0, -s):
+                B._op(b, x, j, s)
+
+    @staticmethod
     def _t1_de_casteljau(d: int,
                          b: np.ndarray, t1_b: np.ndarray,
                          x: np.ndarray, t1_x: np.ndarray):
@@ -141,20 +156,6 @@ class B:
         """
         for j in range(d, 0, -1):
             B._t1_op(b, t1_b, x, t1_x, j)
-
-    @staticmethod
-    def _de_casteljau_n(d: np.ndarray, b: np.ndarray, x: np.ndarray):
-        """The n-variate de Casteljau algorithm.
-
-        :param d: The degrees of the Bernstein polynomial.
-        :param b: The Bernstein batch.
-        :param x: The coordinate vectors.
-        """
-        s = B._strides(d)
-        z = zip(d * s, s, x)
-        for d, s, x, in z:
-            for j in range(d, 0, -s):
-                B._op(b, x, j, s)
 
     @staticmethod
     def _t1_de_casteljau_n(d: np.ndarray,
