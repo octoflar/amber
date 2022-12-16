@@ -125,7 +125,7 @@ class B:
         :param x: The coordinate values.
         """
         for j in range(d, 0, -1):
-            B._op(b, b, x, j, 1)
+            B._op(b, x, j)
 
     @staticmethod
     def _t1_de_casteljau(d: int,
@@ -140,9 +140,7 @@ class B:
         :param t1_x: The tangent-linear extension.
         """
         for j in range(d, 0, -1):
-            B._op(t1_b, t1_b, x, j, 1)
-            B._op(t1_b, b, t1_x, j, 1)
-            B._op(b, b, x, j, 1)
+            B._t1_op(b, t1_b, x, t1_x, j)
 
     @staticmethod
     def _de_casteljau_n(d: np.ndarray, b: np.ndarray, x: np.ndarray):
@@ -156,7 +154,7 @@ class B:
         z = zip(d * s, s, x)
         for d, s, x, in z:
             for j in range(d, 0, -s):
-                B._op(b, b, x, j, s)
+                B._op(b, x, j, s)
 
     @staticmethod
     def _t1_de_casteljau_n(d: np.ndarray,
@@ -174,21 +172,32 @@ class B:
         z = zip(d * s, s, x, t1_x)
         for d, s, x, t1_x in z:
             for j in range(d, 0, -s):
-                B._op(t1_b, t1_b, x, j, s)
-                B._op(t1_b, b, t1_x, j, s)
-                B._op(b, b, x, j, s)
+                B._t1_op(b, t1_b, x, t1_x, j, s)
 
     @staticmethod
-    def _op(a: np.ndarray, b: np.ndarray, x: np.ndarray, j: int, s: int = 1):
+    def _op(b: np.ndarray, x: np.ndarray, j: int, s: int = 1):
         """The Bernstein operator.
 
-        :param a: A Bernstein batch.
         :param b: A Bernstein batch.
         :param x: Coordinate values.
         :param j: An index.
         :param s: A stride.
         """
-        a[0:j] += (b[s:j + s] - b[0:j]) * x
+        b[0:j] += (b[s:j + s] - b[0:j]) * x
+
+    @staticmethod
+    def _t1_op(b: np.ndarray, t1_b, x: np.ndarray, t1_x,  j: int, s: int = 1):
+        """The tangent-linear Bernstein operator.
+
+        :param b: A Bernstein batch.
+        :param t1_b: The tangent-linear extension.
+        :param x: Coordinate values.
+        :param t1_x: The tangent-linear extension.
+        :param j: An index.
+        :param s: A stride.
+        """
+        t1_b[0:j] += (t1_b[s:j + s] - t1_b[0:j]) * x + (b[s:j + s] - b[0:j]) * t1_x
+        b[0:j] += (b[s:j + s] - b[0:j]) * x
 
     @staticmethod
     def _strides(d: np.ndarray) -> np.ndarray:
