@@ -7,7 +7,7 @@ inequality constraints.
 
 # Further reading
 
-Foupouagnigni, Mama, Merlin Mouafo Wouodjié (2020). "On Multivariate Bernstein Polynomials" 
+Mama Foupouagnigni, Merlin Mouafo Wouodjié (2020). "On Multivariate Bernstein Polynomials" 
 Mathematics 8, 1397. <https://doi.org/10.3390/math8091397>
 
 Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein-Bezier form."
