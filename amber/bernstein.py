@@ -22,7 +22,7 @@ import numpy as np
 
 
 class B:
-    """Uni- and multivariate Bernstein polynomials."""
+    """Evaluation of uni- and multivariate Bernstein polynomials."""
 
     @staticmethod
     def basis(d: int, x: np.ndarray, y: np.ndarray):
