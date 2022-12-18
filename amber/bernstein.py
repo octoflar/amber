@@ -136,11 +136,11 @@ class B:
         :param b: The Bernstein batch.
         :param x: The coordinate vectors.
         """
+        n = d.size
         s = B._strides(d)
-        z = zip(d * s, s, x)
-        for d, s, x in z:
-            for j in range(d, 0, -s):
-                B._op(b, x, j, s)
+        for i in range(n):
+            for j in range(d[i] * s[i], 0, -s[i]):
+                B._op(b, x[i], j, s[i])
 
     @staticmethod
     def _t1_de_casteljau(d: int,
@@ -169,11 +169,11 @@ class B:
         :param x: The coordinate values.
         :param t1_x: The tangent-linear extension.
         """
+        n = d.size
         s = B._strides(d)
-        z = zip(d * s, s, x, t1_x)
-        for d, s, x, t1_x in z:
-            for j in range(d, 0, -s):
-                B._t1_op(b, t1_b, x, t1_x, j, s)
+        for i in range(n):
+            for j in range(d[i] * s[i], 0, -s[i]):
+                B._t1_op(b, t1_b, x[i], t1_x[i], j, s[i])
 
     @staticmethod
     def _op(b: np.ndarray, x: np.ndarray, j: int, s: int = 1):
