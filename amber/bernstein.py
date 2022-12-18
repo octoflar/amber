@@ -138,7 +138,7 @@ class B:
         """
         s = B._strides(d)
         z = zip(d * s, s, x)
-        for d, s, x, in z:
+        for d, s, x in z:
             for j in range(d, 0, -s):
                 B._op(b, x, j, s)
 
