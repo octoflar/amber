@@ -187,7 +187,7 @@ class B:
         b[0:j] += (b[s:j + s] - b[0:j]) * x
 
     @staticmethod
-    def _t1_op(b: np.ndarray, t1_b, x: np.ndarray, t1_x,  j: int, s: int = 1):
+    def _t1_op(b: np.ndarray, t1_b, x: np.ndarray, t1_x, j: int, s: int = 1):
         """The tangent-linear Bernstein operator.
 
         :param b: A Bernstein batch.
