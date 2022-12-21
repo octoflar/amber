@@ -19,6 +19,9 @@
 #  SOFTWARE.
 
 import numpy as np
+import tensorflow as tf
+
+tfk = tf.keras
 
 
 class B:
@@ -46,7 +49,7 @@ class B:
         :param y: The evaluated Bernstein polynomial.
         """
         m = np.shape(x)
-        b = np.repeat(c, m).reshape(np.shape(c) + m)
+        b = B._batch(c, m)
         B._de_casteljau(d, b, x)
         y[:] = b[0]
 
@@ -91,8 +94,7 @@ class B:
         :param t1_y: The tangent-linear extension.
         """
         m = np.shape(x)
-        b = np.repeat(c, m).reshape(np.shape(c) + m)
-        t1_b = np.zeros(np.shape(b))
+        b, t1_b = B._t1_batch(c, m)
         B._t1_de_casteljau(d, b, t1_b, x, t1_x)
         t1_y[:] = t1_b[0]
         y[:] = b[0]
@@ -116,6 +118,16 @@ class B:
         B._t1_de_casteljau_n(d, b, t1_b, x, t1_x)
         t1_y[:] = t1_b[0]
         y[:] = b[0]
+
+    @staticmethod
+    def _batch(c: np.ndarray, m: tuple[int]) -> np.ndarray:
+        return np.repeat(c, m).reshape(np.shape(c) + m)
+
+    @staticmethod
+    def _t1_batch(c: np.ndarray, m: tuple[int]) -> tuple[np.ndarray, np.ndarray]:
+        b = B._batch(c, m)
+        t1_b = np.zeros(np.shape(b))
+        return b, t1_b
 
     @staticmethod
     def _de_casteljau(d: int, b: np.ndarray, x: np.ndarray):
@@ -213,3 +225,48 @@ class B:
         for i in range(n - 1, 0, -1):
             s[i - 1] = s[i] * (d[i] + 1)
         return s
+
+    class Poly:
+
+        @staticmethod
+        def batch(c: np.ndarray, m: tuple[int]) -> np.ndarray:
+            return np.repeat(c, m).reshape(np.shape(c) + m)
+
+        @tf.function(jit_compile=True)
+        def __call__(self, d: int, b: np.ndarray, x: np.ndarray) -> tf.Tensor:
+            for j in range(d, 0, -1):
+                b = b[0:j] + (b[1:j + 1] - b[0:j]) * x
+            return b[0]
+
+        @tf.function(jit_compile=True)
+        def grad(self, d: int, b: np.ndarray, x: np.ndarray) -> tf.Tensor:
+            return tf.gradients(self.__call__(d, b, x), x)[0]
+
+    class Layer(tfk.layers.Layer):
+        d: int
+        c: np.ndarray
+        b: tf.Tensor
+
+        def __init__(self, d: int, c: np.ndarray):
+            super(B.Layer, self).__init__()
+            self.d = d
+            self.c = c
+
+        def build(self, input_shape):
+            self.b = B.Layer._batch(self.c, input_shape)
+
+        def call(self, inputs, **kwargs):
+            return B.Layer._de_casteljau(self.d, self.b, inputs)
+
+        def get_config(self) -> dict:
+            return {"d": self.d, "c": self.c}
+
+        @staticmethod
+        def _batch(c: np.ndarray, m: tuple[int]) -> tf.Tensor:
+            return tf.constant(np.repeat(c, m).reshape(np.shape(c) + m))
+
+        @staticmethod
+        def _de_casteljau(d: int, b: tf.Tensor, x: tf.Tensor) -> tf.Tensor:
+            for j in range(d, 0, -1):
+                b = b[0:j] + (b[1:j + 1] - b[0:j]) * x
+            return b[0]
