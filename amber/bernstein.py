@@ -31,7 +31,6 @@ class B:
     def basis(d: int, x: np.ndarray, y: np.ndarray):
         """Evaluates a univariate Bernstein basis at given coordinate
         values x in the unit interval.
-
         :param d: The degree of the Bernstein basis.
         :param x: The coordinate values.
         :param y: The evaluated Bernstein basis.
@@ -42,7 +41,6 @@ class B:
     def poly(d: int, c: np.ndarray, x: np.ndarray, y: np.ndarray):
         """Evaluates a univariate Bernstein polynomial at given
         coordinate values x in the unit interval.
-
         :param d: The degree of the Bernstein polynomial.
         :param c: The Bernstein coefficients.
         :param x: The coordinate values.
@@ -57,7 +55,6 @@ class B:
     def poly_n(d: np.ndarray, c: np.ndarray, x: np.ndarray, y: np.ndarray):
         """Evaluates an n-variate Bernstein polynomial at given coordinate
         vectors x in the unit n-cube.
-
         :param d: The degrees of the Bernstein polynomial.
         :param c: The Bernstein coefficients.
         :param x: The coordinate vectors.
@@ -69,9 +66,9 @@ class B:
         y[:] = b[0]
 
     @staticmethod
-    def t1_basis(d: int, x: np.ndarray, t1_x: np.ndarray, y: np.ndarray, t1_y: np.ndarray):
+    def t1_basis(d: int, x: np.ndarray, t1_x: np.ndarray, y: np.ndarray,
+                 t1_y: np.ndarray):
         """The univariate tangent-linear Bernstein basis model.
-
         :param d: The degree of the Bernstein polynomial.
         :param x: The coordinate values.
         :param t1_x: The tangent-linear extension.
@@ -85,7 +82,6 @@ class B:
                 x: np.ndarray, t1_x: np.ndarray,
                 y: np.ndarray, t1_y: np.ndarray):
         """The univariate tangent-linear Bernstein model.
-
         :param d: The degree of the Bernstein polynomial.
         :param c: The Bernstein coefficients.
         :param x: The coordinate values.
@@ -104,7 +100,6 @@ class B:
                   x: np.ndarray, t1_x: np.ndarray,
                   y: np.ndarray, t1_y: np.ndarray):
         """The n-variate tangent-linear Bernstein model.
-
         :param d: The degrees of the Bernstein polynomial.
         :param c: The Bernstein coefficients.
         :param x: The coordinate values.
@@ -120,11 +115,11 @@ class B:
         y[:] = b[0]
 
     @staticmethod
-    def _batch(c: np.ndarray, m: tuple[int]) -> np.ndarray:
+    def _batch(c: np.ndarray, m) -> np.ndarray:
         return np.repeat(c, m).reshape(np.shape(c) + m)
 
     @staticmethod
-    def _t1_batch(c: np.ndarray, m: tuple[int]) -> tuple[np.ndarray, np.ndarray]:
+    def _t1_batch(c: np.ndarray, m) -> tuple[np.ndarray, np.ndarray]:
         b = B._batch(c, m)
         t1_b = np.zeros(np.shape(b))
         return b, t1_b
@@ -132,7 +127,6 @@ class B:
     @staticmethod
     def _de_casteljau(d: int, b: np.ndarray, x: np.ndarray):
         """The univariate de Casteljau algorithm.
-
         :param d: The degree of the Bernstein polynomial.
         :param b: The Bernstein batch.
         :param x: The coordinate values.
@@ -143,7 +137,6 @@ class B:
     @staticmethod
     def _de_casteljau_n(d: np.ndarray, b: np.ndarray, x: np.ndarray):
         """The n-variate de Casteljau algorithm.
-
         :param d: The degrees of the Bernstein polynomial.
         :param b: The Bernstein batch.
         :param x: The coordinate vectors.
@@ -159,7 +152,6 @@ class B:
                          b: np.ndarray, t1_b: np.ndarray,
                          x: np.ndarray, t1_x: np.ndarray):
         """The univariate tangent-linear de Casteljau algorithm.
-
         :param d: The degree of the Bernstein polynomial.
         :param b: The Bernstein batch.
         :param t1_b: The tangent-linear extension.
@@ -174,7 +166,6 @@ class B:
                            b: np.ndarray, t1_b: np.ndarray,
                            x: np.ndarray, t1_x: np.ndarray):
         """The n-variate tangent-linear de Casteljau algorithm.
-
         :param d: The degree of the Bernstein polynomial.
         :param b: The Bernstein batch.
         :param t1_b: The tangent-linear extension.
@@ -190,7 +181,6 @@ class B:
     @staticmethod
     def _op(b: np.ndarray, x: np.ndarray, j: int, s: int = 1):
         """The Bernstein operator.
-
         :param b: A Bernstein batch.
         :param x: Coordinate values.
         :param j: An index.
@@ -201,7 +191,6 @@ class B:
     @staticmethod
     def _t1_op(b: np.ndarray, t1_b, x: np.ndarray, t1_x, j: int, s: int = 1):
         """The tangent-linear Bernstein operator.
-
         :param b: A Bernstein batch.
         :param t1_b: The tangent-linear extension.
         :param x: Coordinate values.
@@ -216,7 +205,6 @@ class B:
     def _strides(d: np.ndarray) -> np.ndarray:
         """Computes the strides in an n-variate Bernstein batch for an
         n-variate Bernstein polynomial of given degrees.
-
         :param d: The degrees of the Bernstein polynomial.
         :return: The strides within the batch.
         """
@@ -227,10 +215,12 @@ class B:
         return s
 
     class Poly:
+        """Univariate Bernstein polynomial function."""
 
         @staticmethod
-        def batch(c: np.ndarray, m: tuple[int]) -> np.ndarray:
-            return np.repeat(c, m).reshape(np.shape(c) + m)
+        def batch(d: int, c: np.ndarray, m) -> np.ndarray:
+            assert np.shape(c) == (d + 1, )
+            return np.repeat(c, m).reshape(c.shape + m)
 
         @tf.function(jit_compile=True)
         def __call__(self, d: int, b: np.ndarray, x: np.ndarray) -> tf.Tensor:
@@ -243,30 +233,76 @@ class B:
             return tf.gradients(self.__call__(d, b, x), x)[0]
 
     class Layer(tfk.layers.Layer):
+        """Univariate Bernstein layer."""
         d: int
         c: np.ndarray
         b: tf.Tensor
 
         def __init__(self, d: int, c: np.ndarray):
             super(B.Layer, self).__init__()
+            assert np.shape(c) == (d + 1, )
             self.d = d
             self.c = c
 
         def build(self, input_shape):
-            self.b = B.Layer._batch(self.c, input_shape)
+            self.b = tf.constant(self.batch(self.c, input_shape))
 
         def call(self, inputs, **kwargs):
-            return B.Layer._de_casteljau(self.d, self.b, inputs)
+            return self.de_casteljau(self.d, self.b, inputs)
 
         def get_config(self) -> dict:
             return {"d": self.d, "c": self.c}
 
         @staticmethod
-        def _batch(c: np.ndarray, m: tuple[int]) -> tf.Tensor:
-            return tf.constant(np.repeat(c, m).reshape(np.shape(c) + m))
+        def batch(c: np.ndarray, m) -> np.ndarray:
+            return np.repeat(c, m).reshape(c.shape + m)
 
         @staticmethod
-        def _de_casteljau(d: int, b: tf.Tensor, x: tf.Tensor) -> tf.Tensor:
+        def de_casteljau(d: int, b: tf.Tensor, x: tf.Tensor) -> tf.Tensor:
             for j in range(d, 0, -1):
                 b = b[0:j] + (b[1:j + 1] - b[0:j]) * x
             return b[0]
+
+    class TrainableLayer(tfk.layers.Layer):
+        """Univariate Bernstein layer."""
+        _d: int
+        _c: tf.Tensor
+        _m: tf.TensorShape
+        _constraint: tfk.constraints.Constraint | None
+
+        def __init__(self, d: int, c: np.ndarray,
+                     constraint: tfk.constraints.Constraint | None = None):
+            super(B.TrainableLayer, self).__init__()
+            assert np.shape(c) == (d + 1, )
+            self._d = d
+            self._c = self.add_weight(shape=c.shape,
+                                      dtype=c.dtype,
+                                      initializer=B.Initializer(c),
+                                      trainable=True,
+                                      constraint=constraint)
+            self._constraint = constraint
+
+        def build(self, input_shape):
+            self._m = input_shape
+
+        def call(self, inputs, **kwargs):
+            return B.Layer.de_casteljau(self._d, self.batch(self._c, self._m), inputs)
+
+        def get_config(self) -> dict:
+            return {"d": self._d, "c": self._c, "constraint": self._constraint}
+
+        @staticmethod
+        def batch(c: tf.Tensor, m: tf.TensorShape) -> tf.Tensor:
+            return tf.repeat(c, m).reshape(c.shape + m)
+
+    class Initializer(tfk.initializers.Initializer):
+        _c: np.ndarray
+
+        def __init__(self, c: np.ndarray):
+            self._c = c
+
+        def __call__(self, shape, dtype=None, **kwargs):
+            return tf.constant(self._c, dtype=dtype, shape=shape)
+
+        def get_config(self):
+            return {"c": self._c}

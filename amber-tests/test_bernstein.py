@@ -318,11 +318,39 @@ class BernsteinTest(unittest.TestCase):
         self.assertAlmostEqual(-1.5, g[3])
         self.assertAlmostEqual(-2.0, g[4])
 
+    def test_trainable_layer(self):
+        d = 4
+        c = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+        f = B.TrainableLayer(d, c)
+
+        x = np.array([0.3141, 0.2718, 0.5772])
+        x = tf.Variable(x)
+        y = f(x)
+        self.assertAlmostEqual(2.2564, y[0], 6)
+        self.assertAlmostEqual(2.0872, y[1], 6)
+        self.assertAlmostEqual(3.3088, y[2], 6)
+
+    def test_trainable_layer_gradient(self):
+        d = 2
+        c = np.array([1.0, 1.0, 0.0])
+        f = B.TrainableLayer(d, c)
+
+        x = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+        x = tf.Variable(x)
+        with tf.GradientTape() as t:
+            y = f(x)
+        g = t.gradient(y, x)
+        self.assertAlmostEqual(0.0, g[0])
+        self.assertAlmostEqual(-0.5, g[1])
+        self.assertAlmostEqual(-1.0, g[2])
+        self.assertAlmostEqual(-1.5, g[3])
+        self.assertAlmostEqual(-2.0, g[4])
+
     def test_tf_function(self):
         d = 4
         c = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
         x = np.array([0.3141, 0.2718, 0.5772])
-        b = B.Poly.batch(c, np.shape(x))
+        b = B.Poly.batch(d, c, np.shape(x))
 
         f = B.Poly()
         y = f(d, b, x)
@@ -334,7 +362,7 @@ class BernsteinTest(unittest.TestCase):
         d = 2
         c = np.array([1.0, 1.0, 0.0])
         x = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
-        b = B.Poly.batch(c, np.shape(x))
+        b = B.Poly.batch(d, c, np.shape(x))
 
         f = B.Poly()
         g = f.grad(d, b, x)
