@@ -67,7 +67,6 @@ class BernsteinTest(unittest.TestCase):
         self.assertAlmostEqual(7.0, y[3])
         self.assertAlmostEqual(9.0, y[4])
 
-        #x = tf.Variable(x)
         g = f.grad(b, x)
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
