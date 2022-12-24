@@ -22,9 +22,12 @@ import numpy as np
 import tensorflow as tf
 from numpy import ndarray
 from tensorflow import Tensor
-from tensorflow import TensorShape
+from tensorflow import Variable
 
 tfk = tf.keras
+tkc = tfk.constraints
+tki = tfk.initializers
+tkr = tfk.regularizers
 
 
 class BPoly:
@@ -54,7 +57,7 @@ class BPoly:
         return b[0]
 
     @staticmethod
-    def _strides(d):
+    def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
         n = d.size
         s = np.ones(n + 1, d.dtype)
         for i in range(n - 1, -1, -1):
@@ -66,51 +69,51 @@ class BLayer(tfk.layers.Layer):
     """An n-variate Bernstein layer."""
     _d: ndarray
     _s: ndarray
-    _c: Tensor
-    _initializer: tfk.initializers.Initializer
-    _regularizer: tfk.regularizers.Regularizer | None
+    _initializer: tki.Initializer
+    _regularizer: tkr.Regularizer | None
     _trainable: bool
-    _restraint: tfk.constraints.Constraint | None
+    _constraint: tkc.Constraint | None
+    _c: Variable
     _m: int
     _n: int
 
     def __init__(self, d: ndarray,
-                 initializer: tfk.initializers.Initializer = tfk.initializers.ones,
-                 regularizer: tfk.regularizers.Regularizer = None,
+                 initializer: tki.Initializer = tki.ones,
+                 regularizer: tkr.Regularizer = None,
                  trainable: bool = True,
-                 restraint: tfk.constraints.Constraint = None):
+                 constraint: tkc.Constraint = None):
         super(BLayer, self).__init__()
         self._d, self._s = BLayer._strides(d)
-        self._c = self.add_weight(shape=(np.product(d + 1),),
-                                  initializer=initializer,
-                                  regularizer=regularizer,
-                                  trainable=trainable,
-                                  constraint=restraint)
         self._initializer = initializer
         self._regularizer = regularizer
+        self._constraint = constraint
         self._trainable = trainable
-        self._restraint = restraint
 
-    def build(self, input_shape: TensorShape):
+    def build(self, input_shape):
         self._n, self._m = input_shape.as_list()
+        self._c = self.add_weight(shape=self._s[-1],
+                                  initializer=self._initializer,
+                                  regularizer=self._regularizer,
+                                  trainable=self._trainable,
+                                  constraint=self._constraint)
 
-    def call(self, inputs: Tensor, **kwargs):
+    def call(self, inputs, **kwargs):
         b = BLayer._batch(self._c, self._m)
         return BLayer._op(self._d, self._s, b, inputs)
 
     def get_config(self) -> dict:
-        return {"d": self._d, "c": self._c,
+        return {"d": self._d,
                 "initializer": self._initializer,
                 "regularizer": self._regularizer,
                 "trainable": self._trainable,
-                "constraint": self._restraint}
+                "constraint": self._constraint}
 
     @staticmethod
-    def _batch(c: Tensor, m: int) -> Tensor:
+    def _batch(c: Variable, m: int) -> Tensor:
         return tf.repeat(c, m).reshape(c.shape + (m,))
 
     @staticmethod
-    def _op(d: ndarray, s: ndarray, b: Tensor, x: Tensor) -> Tensor:
+    def _op(d: ndarray, s: ndarray, b: Tensor, x: Variable) -> Tensor:
         n = d.size
         for i in range(n):
             for j in range(d[i] * s[i], 0, -s[i]):
@@ -118,7 +121,7 @@ class BLayer(tfk.layers.Layer):
         return b[0]
 
     @staticmethod
-    def _strides(d):
+    def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
         n = d.size
         s = np.ones(n + 1, d.dtype)
         for i in range(n - 1, -1, -1):
@@ -126,7 +129,7 @@ class BLayer(tfk.layers.Layer):
         return d, s
 
 
-class BInitializer(tfk.initializers.Initializer):
+class BInitializer(tki.Initializer):
     """To initialize a Bernstein layer with known coefficients."""
     _b: ndarray
 
