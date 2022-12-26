@@ -60,7 +60,7 @@ class BPoly:
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
         n = d.size
         s = np.ones(n + 1, d.dtype)
-        for i in range(n - 1, -1, -1):
+        for i in reversed(range(n)):
             s[i - 1] = s[i] * (d[i] + 1)
         return d, s
 
@@ -124,7 +124,7 @@ class BLayer(tfk.layers.Layer):
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
         n = d.size
         s = np.ones(n + 1, d.dtype)
-        for i in range(n - 1, -1, -1):
+        for i in reversed(range(n)):
             s[i - 1] = s[i] * (d[i] + 1)
         return d, s
 
