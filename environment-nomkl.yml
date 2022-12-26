@@ -4,7 +4,6 @@ channels:
 dependencies:
   - python >= 3.10
   - nomkl
-  - keras
   - numpy
   - scipy
   - netcdf4
@@ -19,3 +18,5 @@ dependencies:
   - seaborn
   - cartopy
   - xarray
+  # testing
+  - pytest

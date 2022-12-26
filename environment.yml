@@ -3,7 +3,6 @@ channels:
   - conda-forge
 dependencies:
   - python >= 3.10
-  - keras
   - numpy
   - scipy
   - netcdf4
@@ -18,3 +17,5 @@ dependencies:
   - seaborn
   - cartopy
   - xarray
+  # testing
+  - pytest
