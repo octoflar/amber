@@ -62,7 +62,7 @@ class BPoly:
 
         :param b: The Bernstein batch.
         :param x: The arguments.
-        :return: The values of the Bernstein polynomial at the given arguments.
+        :return: The values of the Bernstein polynomial for the given arguments.
         """
         return self._op(self._d, self._s, b, x)
 
@@ -73,7 +73,7 @@ class BPoly:
 
         :param b: The Bernstein batch.
         :param x: The arguments.
-        :return: The values of the gradient of the Bernstein polynomial at
+        :return: The values of the gradient of the Bernstein polynomial for
         the given arguments.
         """
         return tf.gradients(self._op(self._d, self._s, b, x), x)[0]
@@ -87,7 +87,7 @@ class BPoly:
         :param s: The strides within the Bernstein batch.
         :param b: The Bernstein batch.
         :param x: The arguments.
-        :return: The
+        :return: The values of the Bernstein polynomial for the given arguments.
         """
         n = d.size
         for i in range(n):
