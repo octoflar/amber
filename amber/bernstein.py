@@ -99,13 +99,13 @@ class BPoly:
 
     @staticmethod
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """Computes the strides within the Bernstein batch for an n-variate
-        Bernstein polynomial of given degrees.
+        """Computes the strides within the Bernstein coefficients array for
+        an n-variate Bernstein polynomial of given degrees.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
         :return: A tuple of the given degrees and the computed strides. The
-        last element of the strides array corresponds to the number of
-        Bernstein coefficients.
+        value of the last element of the strides array corresponds to the
+        size of the coefficients array.
         """
         n = d.size
         s = np.ones(n + 1, d.dtype)
@@ -204,14 +204,14 @@ class BLayer(tfk.layers.Layer):
 
     @staticmethod
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """Computes the strides within the Bernstein batch for an n-variate
-        Bernstein polynomial of given degrees.
+        """Computes the strides within the Bernstein coefficients array for
+        an n-variate Bernstein polynomial of given degrees.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
 
         :return: A tuple of the given degrees and the computed strides. The
-        last element of the strides array corresponds to the number of
-        Bernstein coefficients.
+        value of the last element of the strides array corresponds to the
+        size of the coefficients array.
         """
         n = d.size
         s = np.ones(n + 1, d.dtype)
