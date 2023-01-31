@@ -93,8 +93,8 @@ class BPoly:
         """
         n = d.size
         for i in range(n):
-            for j in range(d[i] * s[i], 0, -s[i]):
-                b = b[0:j] + (b[s[i]:j + s[i]] - b[0:j]) * x[i]
+            for j in reversed(range(s[i], s[i - 1], s[i])):
+                b = b[0:j] + (b[s[i]:s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
@@ -198,8 +198,8 @@ class BLayer(tfk.layers.Layer):
         """
         n = d.size
         for i in range(n):
-            for j in range(d[i] * s[i], 0, -s[i]):
-                b = b[0:j] + (b[s[i]:j + s[i]] - b[0:j]) * x[i]
+            for j in reversed(range(s[i], s[i - 1], s[i])):
+                b = b[0:j] + (b[s[i]:s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
