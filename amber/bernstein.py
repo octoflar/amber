@@ -68,7 +68,7 @@ class BPoly:
         return self._op(self._d, self._s, b, x)
 
     @tf.function(jit_compile=True)
-    def grad(self, b: np.ndarray, x: np.ndarray) -> tf.Tensor:
+    def grad(self, b: ndarray, x: ndarray) -> tf.Tensor:
         """Evaluates the gradient of the Bernstein polynomial for a given
         Bernstein batch and the given n-variate input vectors.
 
