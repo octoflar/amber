@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build-macos:
+    runs-on: macos-latest
     strategy:
       max-parallel: 5
 
