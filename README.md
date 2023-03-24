@@ -8,7 +8,7 @@ regression with linear inequality constraints.
 
 # Getting started [![Python Package using Conda](https://github.com/octoflar/amber/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package-conda.yml)
 
-To test the Amber software `cd` into the project root directory and type:
+Amber requires [miniconda](https://docs.conda.io/en/latest/miniconda.html). To test the Amber software `cd` into the project root directory and type:
 
     conda env create --file=./environment.yml
     conda activate tf2
