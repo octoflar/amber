@@ -25,6 +25,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           conda env create --file=./environment-nomkl.yml
+          conda init $SHELL
           conda activate tf2-nomkl
 
       - name: Test
@@ -46,6 +47,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           conda env create --file=./environment.yml
+          conda init $SHELL
           conda activate tf2
 
       - name: Test
