@@ -56,7 +56,7 @@ class BPoly:
         return np.repeat(c, m).reshape(c.shape + (m,))
 
     @tf.function(jit_compile=True)
-    def __call__(self, b: ndarray, x: ndarray) -> ndarray:
+    def __call__(self, b: ndarray, x: ndarray) -> Tensor:
         """Evaluates the n-variate Bernstein polynomial for a given Bernstein
         batch and the given n-variate input vectors.
 
@@ -68,7 +68,7 @@ class BPoly:
         return self._op(self._d, self._s, b, x)
 
     @tf.function(jit_compile=True)
-    def grad(self, b: ndarray, x: ndarray) -> tf.Tensor:
+    def grad(self, b: ndarray, x: ndarray) -> Tensor:
         """Evaluates the gradient of the Bernstein polynomial for a given
         Bernstein batch and the given n-variate input vectors.
 
@@ -163,7 +163,7 @@ class BLayer(tfk.layers.Layer):
                                   trainable=self._trainable,
                                   constraint=self._constraint)
 
-    def call(self, inputs, **kwargs):
+    def call(self, inputs, **kwargs) -> Tensor:
         return self._op(self._d, self._s, self._batch(self._c, self._m), inputs)
 
     def get_config(self) -> dict:
@@ -233,10 +233,10 @@ class BInitializer(tki.Initializer):
         :param d: The degrees of the Bernstein polynomial layer.
         :param b: The Bernstein coefficients.
         """
-        assert np.shape(b) == np.product(d + 1)
+        assert np.shape(b) == np.prod(d + 1)
         self._b = b
 
-    def __call__(self, shape, dtype=None, **kwargs):
+    def __call__(self, shape, dtype=None, **kwargs) -> Tensor:
         return tf.constant(self._b, dtype=dtype, shape=shape)
 
     def get_config(self):
