@@ -38,7 +38,7 @@ class BernsteinTest(unittest.TestCase):
 
     def test_b_poly(self):
         d = np.array([4, 3, 2])
-        c = np.arange(np.product(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)) + 1.0
         x = np.array([[0.2718, 0.5772, 0.3141],
                       [0.5772, 0.3141, 0.2718],
                       [0.3141, 0.2718, 0.5772]])
@@ -46,28 +46,28 @@ class BernsteinTest(unittest.TestCase):
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f(b, x)
+        y = f(b, x).data
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
 
     def test_b_poly_gradient(self):
         d = np.array([2, 2])
-        c = np.arange(np.product(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)) + 1.0
         x = np.array([[0.0, 0.25, 0.5, 0.75, 1.0],
                       [0.0, 0.25, 0.5, 0.75, 1.0]])
         n, m = np.shape(x)
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f(b, x)
+        y = f(b, x).data
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
         self.assertAlmostEqual(7.0, y[3])
         self.assertAlmostEqual(9.0, y[4])
 
-        g = f.grad(b, x)
+        g = f.grad(b, x).data
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
@@ -81,11 +81,12 @@ class BernsteinTest(unittest.TestCase):
 
     def test_b_layer(self):
         d = np.array([4, 3, 2])
-        c = np.arange(np.product(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)) + 1.0
         x = tf.Variable([[0.2718, 0.5772, 0.3141],
                          [0.5772, 0.3141, 0.2718],
                          [0.3141, 0.2718, 0.5772]])
         f = BLayer(d, BInitializer(d, c))
+
         y = f(x)
         self.assertAlmostEqual(19.8694, y[0], 4)
         self.assertAlmostEqual(32.0761, y[1], 4)
@@ -93,12 +94,12 @@ class BernsteinTest(unittest.TestCase):
 
     def test_b_layer_gradient(self):
         d = np.array([2, 2])
-        c = np.arange(np.product(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)) + 1.0
         x = tf.Variable([[0.0, 0.25, 0.5, 0.75, 1.0],
                          [0.0, 0.25, 0.5, 0.75, 1.0]])
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x)
+        y = f(x).data
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
@@ -107,7 +108,7 @@ class BernsteinTest(unittest.TestCase):
 
         with tf.GradientTape() as t:
             y = f(x)
-        g = t.gradient(y, x)
+        g = t.gradient(y, x).data
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
