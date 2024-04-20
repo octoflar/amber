@@ -51,8 +51,8 @@ jobs:
       run: |
         conda install numpy
         conda install scipy
-        conda install tensorflow >= 2.10
-        conda install tensorflow-probability >= 0.18
+        conda install --channel conda-forge tensorflow >= 2.10
+        conda install --channel conda-forge tensorflow-probability >= 0.18
         conda install pytest
     - name: Lint with flake8
       run: |
