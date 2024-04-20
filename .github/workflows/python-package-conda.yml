@@ -20,9 +20,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda env create --file environment-nomkl.yml
-        conda init
-        conda activate tf2-nomkl
+        conda env update --file environment-nomkl.yml --name base
     - name: Lint with flake8
       run: |
         conda install flake8
@@ -51,9 +49,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda env create --file environment.yml
-        conda init
-        conda activate tf2
+        conda env update --file environment-nomkl.yml --name base
     - name: Lint with flake8
       run: |
         conda install flake8
