@@ -2,7 +2,6 @@ name: tf2
 channels:
   - conda-forge
 dependencies:
-  - python = 3.10
   - numpy
   - scipy
   - netcdf4
@@ -15,7 +14,6 @@ dependencies:
   - tensorflow-probability >= 0.18.0
   - scikit-learn
   - seaborn
-  - cartopy
   - xarray
   # testing
   - pytest
