@@ -33,8 +33,7 @@ tfk = tf.keras
 class BernsteinTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        from tensorflow.python.ops.numpy_ops import np_config
-        np_config.enable_numpy_behavior()
+        tf.experimental.numpy.experimental_enable_numpy_behavior()
 
     def test_b_poly(self):
         d = np.array([4, 3, 2])

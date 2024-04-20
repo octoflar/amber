@@ -56,7 +56,7 @@ class BPoly:
         return np.repeat(c, m).reshape(c.shape + (m,))
 
     @tf.function(jit_compile=True)
-    def __call__(self, b: ndarray, x: ndarray) -> Tensor:
+    def __call__(self, b: ndarray, x: ndarray) -> ndarray:
         """Evaluates the n-variate Bernstein polynomial for a given Bernstein
         batch and the given n-variate input vectors.
 
