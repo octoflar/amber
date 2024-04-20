@@ -1,7 +1,9 @@
 name: tf2-nomkl
 channels:
+  - defaults
   - conda-forge
 dependencies:
+  - python = 3.10
   - nomkl
   - numpy
   - scipy
@@ -13,7 +15,6 @@ dependencies:
   - jupyterlab
   - tensorflow >= 2.10
   - tensorflow-probability >= 0.18.0
-  - scikit-learn
   - seaborn
   - xarray
   # testing
