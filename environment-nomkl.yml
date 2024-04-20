@@ -14,7 +14,7 @@ dependencies:
   - geopandas
   - jupyterlab
   - tensorflow >= 2.10
-  - tensorflow-probability >= 0.18.0
+  - tensorflow-probability >= 0.18
   - seaborn
   - xarray
   # testing
