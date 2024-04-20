@@ -2,7 +2,7 @@ name: tf2-nomkl
 channels:
   - conda-forge
 dependencies:
-  - python = 3.11.9
+  - python = 3.11
   - nomkl
   - numpy
   - scipy
