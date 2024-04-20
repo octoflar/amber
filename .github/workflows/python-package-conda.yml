@@ -20,7 +20,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-        conda --channel conda-forge install tensorflow >= 2.10
+        conda install --channel conda-forge tensorflow >= 2.10
     - name: Lint with flake8
       run: |
         conda install flake8
