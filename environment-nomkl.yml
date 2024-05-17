@@ -1,4 +1,4 @@
-name: tf2-nomkl
+name: amber-nomkl
 channels:
   - conda-forge
 dependencies:
@@ -6,15 +6,11 @@ dependencies:
   - nomkl
   - numpy
   - scipy
-  - netcdf4
-  - h5py
-  - matplotlib
-  - pandas
-  - geopandas
   - jupyterlab
   - tensorflow >= 2.10
   - tensorflow-probability >= 0.18
-  - seaborn
-  - xarray
   # testing
   - pytest
+  - pytest-cov
+  # coding
+  - black

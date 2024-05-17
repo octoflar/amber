@@ -1,19 +1,15 @@
-name: tf2
+name: amber
 channels:
   - conda-forge
 dependencies:
   - python = 3.11
   - numpy
   - scipy
-  - netcdf4
-  - h5py
-  - matplotlib
-  - pandas
-  - geopandas
   - jupyterlab
   - tensorflow >= 2.10
   - tensorflow-probability >= 0.18
-  - seaborn
-  - xarray
   # testing
   - pytest
+  - pytest-cov
+  # coding
+  - black
