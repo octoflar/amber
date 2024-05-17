@@ -1,4 +1,4 @@
-name: Python Package
+name: Python Test
 
 on: [push]
 
@@ -26,8 +26,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest amber-tests
+        pip install pytest pytest-cov
+        pytest --cov=amber amber-tests
 
   build-linux:
     runs-on: ubuntu-latest
