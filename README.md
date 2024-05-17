@@ -1,4 +1,6 @@
-![Graphical abstract](assets/img/bernstein-series.png "Series of bivariate Bernstein basis polynomials of second degree")
+![Graphical abstract](assets/img/bernstein-series.png "Series of bivariate Bernstein basis polynomials")
+
+[![Python Package](https://github.com/octoflar/amber/actions/workflows/python-package.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package.yml)
 
 Amber provides code to evaluate multivariate Bernstein polynomials in
 [TensorFlow](https://www.tensorflow.org) using
@@ -6,7 +8,7 @@ Amber provides code to evaluate multivariate Bernstein polynomials in
 Multivariate Bernstein basis polynomials are particularly useful for linear multivariate
 regression with linear inequality constraints.
 
-# Getting started [![Python Package](https://github.com/octoflar/amber/actions/workflows/python-package.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package.yml)
+# Getting started
 
 Amber requires [miniconda](https://docs.conda.io/en/latest/miniconda.html). To test the Amber software `cd` into the project root directory and type:
 
