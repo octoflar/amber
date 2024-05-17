@@ -6,8 +6,8 @@ Amber provides code to evaluate multivariate Bernstein polynomials in
 Multivariate Bernstein basis polynomials are particularly useful for linear multivariate
 regression with linear inequality constraints.
 
-[![Python Test](https://github.com/octoflar/amber/actions/workflows/python-test.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-test.yml)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![python test](https://github.com/octoflar/amber/actions/workflows/python-test.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-test.yml)
+[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Getting started
 
