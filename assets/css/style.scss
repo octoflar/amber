@@ -1,13 +1,13 @@
 ---
 ---
 
+@import "{{ site.theme }}";
+
 #main_content_wrap {
   background: #ffffff;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
 }
-
-@import "{{ site.theme }}";
 
 body {
   // add custom styles here, e.g,
@@ -18,7 +18,7 @@ img[title="Series of bivariate Bernstein basis polynomials"] {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  min-height: 640px;
+  min-height: 320px;
   max-height: 1280px;
   object-fit: scale-down;
 }
