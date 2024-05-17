@@ -32,6 +32,7 @@ tkr = tfk.regularizers
 
 class BPoly:
     """An n-variate Bernstein polynomial."""
+
     _d: ndarray
     """The degrees of the n-variate Bernstein polynomial."""
     _s: ndarray
@@ -94,7 +95,7 @@ class BPoly:
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i]:s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
@@ -116,6 +117,7 @@ class BPoly:
 
 class BLayer(tfk.layers.Layer):
     """An n-variate Bernstein polynomial layer."""
+
     _d: ndarray
     """The degrees of the Bernstein polynomial."""
     _s: ndarray
@@ -135,11 +137,14 @@ class BLayer(tfk.layers.Layer):
     _n: int
     """The dimension of an input vector."""
 
-    def __init__(self, d: ndarray,
-                 initializer: tki.Initializer = tki.ones,
-                 regularizer: tkr.Regularizer = None,
-                 trainable: bool = True,
-                 constraint: tkc.Constraint = None):
+    def __init__(
+        self,
+        d: ndarray,
+        initializer: tki.Initializer = tki.ones,
+        regularizer: tkr.Regularizer = None,
+        trainable: bool = True,
+        constraint: tkc.Constraint = None,
+    ):
         """Creates a new instance of this class.
 
         :param d: The degrees of the Bernstein polynomial.
@@ -157,21 +162,25 @@ class BLayer(tfk.layers.Layer):
 
     def build(self, input_shape):
         self._n, self._m = input_shape
-        self._c = self.add_weight(shape=self._s[-1],
-                                  initializer=self._initializer,
-                                  regularizer=self._regularizer,
-                                  trainable=self._trainable,
-                                  constraint=self._constraint)
+        self._c = self.add_weight(
+            shape=self._s[-1],
+            initializer=self._initializer,
+            regularizer=self._regularizer,
+            trainable=self._trainable,
+            constraint=self._constraint,
+        )
 
     def call(self, inputs, **kwargs) -> Tensor:
         return self._op(self._d, self._s, self._batch(self._c, self._m), inputs)
 
     def get_config(self) -> dict:
-        return {"d": self._d,
-                "initializer": self._initializer,
-                "regularizer": self._regularizer,
-                "trainable": self._trainable,
-                "constraint": self._constraint}
+        return {
+            "d": self._d,
+            "initializer": self._initializer,
+            "regularizer": self._regularizer,
+            "trainable": self._trainable,
+            "constraint": self._constraint,
+        }
 
     @staticmethod
     def _batch(c: Variable, m: int) -> Tensor:
@@ -199,7 +208,7 @@ class BLayer(tfk.layers.Layer):
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i]:s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
@@ -223,6 +232,7 @@ class BLayer(tfk.layers.Layer):
 class BInitializer(tki.Initializer):
     """Initializes an n-variate Bernstein polynomial layer with initial
     coefficients."""
+
     _b: ndarray
     """The initial Bernstein coefficients."""
 
