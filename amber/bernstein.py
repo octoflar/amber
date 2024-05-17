@@ -156,7 +156,7 @@ class BLayer(tfk.layers.Layer):
         self._trainable = trainable
 
     def build(self, input_shape):
-        self._n, self._m = input_shape.as_list()
+        self._n, self._m = input_shape
         self._c = self.add_weight(shape=self._s[-1],
                                   initializer=self._initializer,
                                   regularizer=self._regularizer,
