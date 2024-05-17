@@ -1,4 +1,4 @@
-![Graphical abstract](assets/img/bernstein-series-gray.png "Series of bivariate Bernstein basis polynomials of second degree")
+![Graphical abstract](assets/img/bernstein-series.png "Series of bivariate Bernstein basis polynomials of second degree")
 
 Amber provides code to evaluate multivariate Bernstein polynomials in
 [TensorFlow](https://www.tensorflow.org) using
