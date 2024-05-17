@@ -6,7 +6,7 @@ Amber provides code to evaluate multivariate Bernstein polynomials in
 Multivariate Bernstein basis polynomials are particularly useful for linear multivariate
 regression with linear inequality constraints.
 
-# Getting started [![Python Package using Conda](https://github.com/octoflar/amber/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package-conda.yml)
+# Getting started [![Python Package using Pip](https://github.com/octoflar/amber/actions/workflows/python-package-pip.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package-pip.yml)
 
 Amber requires [miniconda](https://docs.conda.io/en/latest/miniconda.html). To test the Amber software `cd` into the project root directory and type:
 
