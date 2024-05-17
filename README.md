@@ -7,7 +7,7 @@ Multivariate Bernstein basis polynomials are particularly useful for linear mult
 regression with linear inequality constraints.
 
 [![Python Package](https://github.com/octoflar/amber/actions/workflows/python-package.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/python-package.yml)
-[![Code style: black]("https://img.shields.io/badge/code%20style-black-000000.svg")]("https://github.com/psf/black")
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Getting started
 
