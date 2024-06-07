@@ -6,8 +6,8 @@ dependencies:
   - numpy
   - scipy
   - jupyterlab
-  - tensorflow >= 2.10
-  - tensorflow-probability >= 0.18
+  - tensorflow >= 2.11
+  - tensorflow-probability >= 0.19
   # testing
   - pytest
   - pytest-cov

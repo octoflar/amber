@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amber"
+dynamic = ["version"]
+# version = "2024.0.0"
+dependencies = [
+  # see environment.yml
+]
+requires-python = ">=3.11"
+authors = [
+  {name = "Ralf Quast", email = "octoflar@icloud.com"},
+]
+description = "Multivariate Bernstein polynomials"
+readme = "README.md"
+license = {text = "MIT License"}
+keywords = ["Bernstein polynomials"]
+classifiers = [
+  "Programming Language :: Python"
+]
+
+[project.optional-dependencies]
+# none
+
+[project.urls]
+Homepage = "https://octoflar.github.io/amber/"
+Repository = "https://github.com/octoflar/amber"
+
+[project.scripts]
+# none
+
+[tool.black]
+line-length = 80
+target-version = ["py311"]
+
+[tool.flake8]
+max-line-length = 80
+
+[tool.pytest.ini_options]
+addopts = "--cov=amber"
+pythonpath = "amber"
+testpaths = [
+    "amber-tests",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "amber.__version__"}
