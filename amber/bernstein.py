@@ -53,7 +53,7 @@ class BPoly:
         :param m: The number of n-variate input vectors.
         :return: The corresponding Bernstein batch.
         """
-        assert np.shape(c) == (self._s[-1],)
+        assert np.shape(c) == (self._s[-1:],)
         return np.repeat(c, m).reshape(c.shape + (m,))
 
     @tf.function(jit_compile=True)
@@ -163,7 +163,7 @@ class BLayer(tfk.layers.Layer):
     def build(self, input_shape):
         self._n, self._m = input_shape
         self._c = self.add_weight(
-            shape=self._s[-1],
+            shape=self._s[-1:],
             initializer=self._initializer,
             regularizer=self._regularizer,
             trainable=self._trainable,
