@@ -106,7 +106,7 @@ class BPoly:
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i]: s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
@@ -149,12 +149,12 @@ class BLayer(tfk.layers.Layer):
     """The dimension of an input vector."""
 
     def __init__(
-            self,
-            d: ndarray,
-            initializer: tki.Initializer = tki.ones,
-            regularizer: tkr.Regularizer = None,
-            trainable: bool = True,
-            constraint: tkc.Constraint = None,
+        self,
+        d: ndarray,
+        initializer: tki.Initializer = tki.ones,
+        regularizer: tkr.Regularizer = None,
+        trainable: bool = True,
+        constraint: tkc.Constraint = None,
     ):
         """Creates a new instance of this class.
 
@@ -219,7 +219,7 @@ class BLayer(tfk.layers.Layer):
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i]: s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
