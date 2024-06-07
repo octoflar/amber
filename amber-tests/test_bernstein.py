@@ -101,7 +101,9 @@ class BernsteinTest(unittest.TestCase):
     def test_b_layer_gradient(self):
         d = np.array([2, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
-        x = tf.Variable([[0.0, 0.25, 0.5, 0.75, 1.0], [0.0, 0.25, 0.5, 0.75, 1.0]])
+        x = tf.Variable(
+            [[0.0, 0.25, 0.5, 0.75, 1.0], [0.0, 0.25, 0.5, 0.75, 1.0]]
+        )
         f = BLayer(d, BInitializer(d, c))
 
         y = f(x).data
