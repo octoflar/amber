@@ -57,7 +57,7 @@ class BPoly:
         return np.repeat(c, m).reshape(c.shape + (m,))
 
     @tf.function(jit_compile=True)
-    def __call__(self, b: ndarray, x: ndarray) -> ndarray:
+    def __call__(self, b: ndarray, x: ndarray) -> ndarray | Tensor:
         """Evaluates the n-variate Bernstein polynomial for a given Bernstein
         batch and the given n-variate input vectors.
 
@@ -80,6 +80,17 @@ class BPoly:
         """
         return tf.gradients(self._op(self._d, self._s, b, x), x)[0]
 
+    def eval(self, b: ndarray, x: ndarray) -> ndarray:
+        """Evaluates the n-variate Bernstein polynomial for a given Bernstein
+        batch and the given n-variate input vectors.
+
+        :param b: The Bernstein batch.
+        :param x: The n-variate input vectors.
+        :return: The values of the Bernstein polynomial for the given input
+        vectors.
+        """
+        return self._op(self._d, self._s, b, x)
+
     @staticmethod
     def _op(d: ndarray, s: ndarray, b: ndarray, x: ndarray) -> ndarray:
         """Performs the de Casteljau algorithm to evaluate an n-variate
@@ -95,7 +106,7 @@ class BPoly:
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i]: s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod
@@ -138,12 +149,12 @@ class BLayer(tfk.layers.Layer):
     """The dimension of an input vector."""
 
     def __init__(
-        self,
-        d: ndarray,
-        initializer: tki.Initializer = tki.ones,
-        regularizer: tkr.Regularizer = None,
-        trainable: bool = True,
-        constraint: tkc.Constraint = None,
+            self,
+            d: ndarray,
+            initializer: tki.Initializer = tki.ones,
+            regularizer: tkr.Regularizer = None,
+            trainable: bool = True,
+            constraint: tkc.Constraint = None,
     ):
         """Creates a new instance of this class.
 
@@ -208,7 +219,7 @@ class BLayer(tfk.layers.Layer):
         n = d.size
         for i in range(n):
             for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
+                b = b[0:j] + (b[s[i]: s[i] + j] - b[0:j]) * x[i]
         return b[0]
 
     @staticmethod

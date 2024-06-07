@@ -30,7 +30,7 @@ from bernstein import BPoly
 tfk = tf.keras
 
 
-class BernsteinTest(unittest.TestCase):
+class BPolyTest(unittest.TestCase):
 
     def setUp(self) -> None:
         tf.experimental.numpy.experimental_enable_numpy_behavior()
@@ -49,7 +49,12 @@ class BernsteinTest(unittest.TestCase):
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f(b, x).data
+        y = f.eval(b, x).data
+        self.assertAlmostEqual(19.8694, y[0])
+        self.assertAlmostEqual(32.0761, y[1])
+        self.assertAlmostEqual(19.6774, y[2])
+
+        y = f(b, x)
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
@@ -62,7 +67,7 @@ class BernsteinTest(unittest.TestCase):
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f(b, x).data
+        y = f(b, x)
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
@@ -81,6 +86,12 @@ class BernsteinTest(unittest.TestCase):
         self.assertAlmostEqual(2.0, g[1, 3])
         self.assertAlmostEqual(2.0, g[1, 4])
 
+
+class BLayerTest(unittest.TestCase):
+
+    def setUp(self) -> None:
+        tf.experimental.numpy.experimental_enable_numpy_behavior()
+
     def test_b_layer(self):
         d = np.array([4, 3, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
@@ -93,7 +104,7 @@ class BernsteinTest(unittest.TestCase):
         )
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x)
+        y = f(x).data
         self.assertAlmostEqual(19.8694, y[0], 4)
         self.assertAlmostEqual(32.0761, y[1], 4)
         self.assertAlmostEqual(19.6774, y[2], 4)
