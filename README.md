@@ -14,8 +14,8 @@ regression with linear inequality constraints.
 Amber requires [miniconda](https://docs.conda.io/en/latest/miniconda.html). To test the Amber software `cd` into the project root directory and type:
 
     conda env create --file=./environment.yml
-    conda activate tf2
-    pytest --disable-warnings
+    conda activate amber
+    pytest
 
 # Further reading
 
