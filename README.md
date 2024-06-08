@@ -7,6 +7,7 @@ Multivariate Bernstein basis polynomials are particularly useful for linear mult
 regression with linear inequality constraints.
 
 [![test](https://github.com/octoflar/amber/actions/workflows/test.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/test.yml)
+[![CodeQL](https://github.com/octoflar/amber/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/codeql-analysis.yml)
 [![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/octoflar/amber/graph/badge.svg?token=ATR81MB06N)](https://codecov.io/gh/octoflar/amber)
 
