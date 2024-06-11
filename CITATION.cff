@@ -1,8 +1,7 @@
 # YAML 1.2
 ---
 authors: 
-  -
-    family-names: Quast
+  - family-names: Quast
     given-names: Ralf
     orcid: "https://orcid.org/0000-0002-6857-6503"
 cff-version: "1.1.0"
