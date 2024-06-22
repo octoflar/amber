@@ -19,7 +19,8 @@
 #  SOFTWARE.
 
 """A function and a layer to evaluate Bernstein polynomials for use with
-TensorFlow."""
+TensorFlow.
+"""
 
 import numpy as np
 import tensorflow as tf

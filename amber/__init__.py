@@ -18,7 +18,11 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-"""The Amber package."""
+"""Amber provides code to evaluate multivariate Bernstein polynomials in
+TensorFlow using De Casteljau's algorithm. Multivariate Bernstein basis
+polynomials are particularly useful for linear multivariate regression
+with linear inequality constraints.
+"""
 
 __version__ = "2024.0.0"
 """The software version."""
