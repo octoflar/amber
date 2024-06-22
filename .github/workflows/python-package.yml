@@ -47,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install numpy scipy tensorflow>=2.12.0
-    - name: Lint with flake8
+    - name: Lint with flake8 flake8-docstring
       run: |
         pip install flake8
         # stop the build if there are Python syntax errors or undefined names
