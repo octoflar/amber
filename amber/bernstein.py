@@ -242,7 +242,8 @@ class BLayer(tfk.layers.Layer):
 
 class BInitializer(tki.Initializer):
     """Initializes an n-variate Bernstein polynomial layer with initial
-    coefficients."""
+    coefficients.
+    """
 
     _b: ndarray
     """The initial Bernstein coefficients."""
