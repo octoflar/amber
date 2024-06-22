@@ -18,5 +18,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
+"""The Amber package."""
+
 __version__ = "2024.0.0"
-"""The project version."""
+"""The software version."""

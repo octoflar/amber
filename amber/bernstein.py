@@ -18,6 +18,9 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
+"""A function and a layer to evaluate Bernstein polynomials for use with
+TensorFlow."""
+
 import numpy as np
 import tensorflow as tf
 from numpy import ndarray
@@ -172,6 +175,7 @@ class BLayer(tfk.layers.Layer):
         self._trainable = trainable
 
     def build(self, input_shape):
+        """Called by TensorFlow."""
         self._n, self._m = input_shape
         self._c = self.add_weight(
             shape=self._s[-1:],
@@ -182,9 +186,11 @@ class BLayer(tfk.layers.Layer):
         )
 
     def call(self, inputs, **kwargs) -> Tensor:
+        """Called by TensorFlow."""
         return self._op(self._d, self._s, self._batch(self._c, self._m), inputs)
 
     def get_config(self) -> dict:
+        """Called by TensorFlow."""
         return {
             "d": self._d,
             "initializer": self._initializer,
@@ -259,7 +265,9 @@ class BInitializer(tki.Initializer):
         self._b = b
 
     def __call__(self, shape, dtype=None, **kwargs) -> Tensor:
+        """Called by TensorFlow."""
         return tf.constant(self._b, dtype=dtype, shape=shape)
 
     def get_config(self):
+        """Called by TensorFlow."""
         return {"b": self._b}
