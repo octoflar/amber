@@ -17,8 +17,8 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-
-"""A function and a layer to evaluate Bernstein polynomials for use with
+"""
+A function and a layer to evaluate Bernstein polynomials for use with
 TensorFlow.
 """
 
@@ -43,14 +43,16 @@ class BPoly:
     """The strides within the n-variate Bernstein batch."""
 
     def __init__(self, d: ndarray):
-        """Creates a new n-variate Bernstein polynomial of given degree.
+        """
+        Creates a new n-variate Bernstein polynomial of given degree.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
         """
         self._d, self._s = self._strides(d)
 
     def batch(self, c: ndarray, m: int) -> ndarray:
-        """Creates a new Bernstein batch for given Bernstein coefficients and
+        """
+        Creates a new Bernstein batch for given Bernstein coefficients and
         a given number of n-variate input vectors.
 
         :param c: The Bernstein coefficients.
@@ -62,7 +64,8 @@ class BPoly:
 
     @tf.function(jit_compile=True)
     def __call__(self, b: ndarray, x: ndarray) -> ndarray | Tensor:
-        """Evaluates the n-variate Bernstein polynomial for a given Bernstein
+        """
+        Evaluates the n-variate Bernstein polynomial for a given Bernstein
         batch and the given n-variate input vectors.
 
         :param b: The Bernstein batch.
@@ -74,7 +77,8 @@ class BPoly:
 
     @tf.function(jit_compile=True)
     def grad(self, b: ndarray, x: ndarray) -> Tensor:
-        """Evaluates the gradient of the Bernstein polynomial for a given
+        """
+        Evaluates the gradient of the Bernstein polynomial for a given
         Bernstein batch and the given n-variate input vectors.
 
         :param b: The Bernstein batch.
@@ -85,7 +89,8 @@ class BPoly:
         return tf.gradients(self._op(self._d, self._s, b, x), x)[0]
 
     def eval(self, b: ndarray, x: ndarray) -> ndarray:
-        """Evaluates the n-variate Bernstein polynomial for a given Bernstein
+        """
+        Evaluates the n-variate Bernstein polynomial for a given Bernstein
         batch and the given n-variate input vectors.
 
         :param b: The Bernstein batch.
@@ -97,7 +102,8 @@ class BPoly:
 
     @staticmethod
     def _op(d: ndarray, s: ndarray, b: ndarray, x: ndarray) -> ndarray:
-        """Performs the de Casteljau algorithm to evaluate an n-variate
+        """
+        Performs the de Casteljau algorithm to evaluate an n-variate
         Bernstein polynomial.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
@@ -115,7 +121,8 @@ class BPoly:
 
     @staticmethod
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """Computes the strides within the Bernstein coefficients array for
+        """
+        Computes the strides within the Bernstein coefficients array for
         an n-variate Bernstein polynomial of given degrees.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
@@ -160,7 +167,8 @@ class BLayer(tfk.layers.Layer):
         trainable: bool = True,
         constraint: tkc.Constraint = None,
     ):
-        """Creates a new instance of this class.
+        """
+        Creates a new instance of this class.
 
         :param d: The degrees of the Bernstein polynomial.
         :param initializer: An initializer.
@@ -202,7 +210,8 @@ class BLayer(tfk.layers.Layer):
 
     @staticmethod
     def _batch(c: Variable, m: int) -> Tensor:
-        """Returns a new Bernstein batch for given coefficients and number of
+        """
+        Returns a new Bernstein batch for given coefficients and number of
         n-variate input vectors.
 
         :param c: The Bernstein coefficients.
@@ -213,7 +222,8 @@ class BLayer(tfk.layers.Layer):
 
     @staticmethod
     def _op(d: ndarray, s: ndarray, b: Tensor, x: Variable) -> Tensor:
-        """Performs the de Casteljau algorithm to evaluate an n-variate
+        """
+        Performs the de Casteljau algorithm to evaluate an n-variate
         Bernstein polynomial.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
@@ -231,7 +241,8 @@ class BLayer(tfk.layers.Layer):
 
     @staticmethod
     def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """Computes the strides within the Bernstein coefficients array for
+        """
+        Computes the strides within the Bernstein coefficients array for
         an n-variate Bernstein polynomial of given degrees.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
@@ -248,7 +259,8 @@ class BLayer(tfk.layers.Layer):
 
 
 class BInitializer(tki.Initializer):
-    """Initializes an n-variate Bernstein polynomial layer with initial
+    """
+    Initializes an n-variate Bernstein polynomial layer with initial
     coefficients.
     """
 
@@ -256,7 +268,8 @@ class BInitializer(tki.Initializer):
     """The initial Bernstein coefficients."""
 
     def __init__(self, d: ndarray, b: ndarray):
-        """Creates a new initializer to initialize an n-variate Bernstein
+        """
+        Creates a new initializer to initialize an n-variate Bernstein
         polynomial layer of given degrees with given Bernstein coefficients.
 
         :param d: The degrees of the Bernstein polynomial layer.
