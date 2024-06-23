@@ -9,7 +9,7 @@ regression with linear inequality constraints.
 [![Package](https://github.com/octoflar/amber/actions/workflows/python-package.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/test.yml)
 [![CodeQL](https://github.com/octoflar/amber/actions/workflows/codeql.yml/badge.svg)](https://github.com/octoflar/amber/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/octoflar/amber/graph/badge.svg?token=ATR81MB06N)](https://codecov.io/gh/octoflar/amber)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/605e8be8b8d143748ea13bde3ff689ac)](https://app.codacy.com/gh/octoflar/amber/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy](https://app.codacy.com/project/badge/Grade/605e8be8b8d143748ea13bde3ff689ac)](https://app.codacy.com/gh/octoflar/amber/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 # Getting started
 
