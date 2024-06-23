@@ -34,6 +34,11 @@ Repository = "https://github.com/octoflar/amber"
 line-length = 80
 target-version = ["py311"]
 
+[tool.coverage.report]
+exclude_also = [
+    "@tf.function",
+    ]
+
 [tool.flake8]
 max-line-length = 80
 
