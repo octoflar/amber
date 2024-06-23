@@ -48,7 +48,7 @@ class BPoly:
 
         :param d: The degrees of the n-variate Bernstein polynomial.
         """
-        self._d, self._s = self._strides(d)
+        self._d, self._s = _strides(d)
 
     def batch(self, c: ndarray, m: int) -> ndarray:
         """
@@ -73,7 +73,7 @@ class BPoly:
         :return: The values of the Bernstein polynomial for the given input
         vectors.
         """
-        return self._op(self._d, self._s, b, x)
+        return _op(self._d, self._s, b, x)
 
     @tf.function(jit_compile=True)
     def grad(self, b: ndarray, x: ndarray) -> Tensor:
@@ -86,7 +86,7 @@ class BPoly:
         :return: The values of the gradient of the Bernstein polynomial for
         the given input vectors.
         """
-        return tf.gradients(self._op(self._d, self._s, b, x), x)[0]
+        return tf.gradients(_op(self._d, self._s, b, x), x)[0]
 
     def eval(self, b: ndarray, x: ndarray) -> ndarray:
         """
@@ -98,43 +98,7 @@ class BPoly:
         :return: The values of the Bernstein polynomial for the given input
         vectors.
         """
-        return self._op(self._d, self._s, b, x)
-
-    @staticmethod
-    def _op(d: ndarray, s: ndarray, b: ndarray, x: ndarray) -> ndarray:
-        """
-        Performs the de Casteljau algorithm to evaluate an n-variate
-        Bernstein polynomial.
-
-        :param d: The degrees of the n-variate Bernstein polynomial.
-        :param s: The strides within the Bernstein batch.
-        :param b: The Bernstein batch.
-        :param x: The n-variate input vectors.
-        :return: The values of the Bernstein polynomial for the given input
-        vectors.
-        """
-        n = d.size
-        for i in range(n):
-            for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
-        return b[0]
-
-    @staticmethod
-    def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """
-        Computes the strides within the Bernstein coefficients array for
-        an n-variate Bernstein polynomial of given degrees.
-
-        :param d: The degrees of the n-variate Bernstein polynomial.
-        :return: A tuple of the given degrees and the computed strides. The
-        value of the last element of the strides array corresponds to the
-        size of the coefficients array.
-        """
-        n = d.size
-        s = np.ones(n + 1, d.dtype)
-        for i in reversed(range(n)):
-            s[i - 1] = s[i] * (d[i] + 1)
-        return d, s
+        return _op(self._d, self._s, b, x)
 
 
 class BLayer(tfk.layers.Layer):
@@ -177,7 +141,7 @@ class BLayer(tfk.layers.Layer):
         :param constraint: A constraint.
         """
         super(BLayer, self).__init__()
-        self._d, self._s = BLayer._strides(d)
+        self._d, self._s = _strides(d)
         self._initializer = initializer
         self._regularizer = regularizer
         self._constraint = constraint
@@ -196,7 +160,7 @@ class BLayer(tfk.layers.Layer):
 
     def call(self, inputs, **kwargs) -> Tensor:
         """Called by TensorFlow."""
-        return self._op(self._d, self._s, self._batch(self._c, self._m), inputs)
+        return _op(self._d, self._s, self._batch(self._c, self._m), inputs)
 
     def get_config(self) -> dict:
         """Called by TensorFlow."""
@@ -220,42 +184,44 @@ class BLayer(tfk.layers.Layer):
         """
         return tf.repeat(c, m).reshape(c.shape + (m,))
 
-    @staticmethod
-    def _op(d: ndarray, s: ndarray, b: Tensor, x: Variable) -> Tensor:
-        """
-        Performs the de Casteljau algorithm to evaluate an n-variate
-        Bernstein polynomial.
 
-        :param d: The degrees of the n-variate Bernstein polynomial.
-        :param s: The strides within the Bernstein batch.
-        :param b: The Bernstein batch.
-        :param x: The n-variate input vectors.
-        :return: The values of the Bernstein polynomial for the given input
-        vectors.
-        """
-        n = d.size
-        for i in range(n):
-            for j in reversed(range(s[i], s[i - 1], s[i])):
-                b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
-        return b[0]
+def _op(
+    d: ndarray, s: ndarray, b: ndarray | Tensor, x: ndarray | Variable
+) -> ndarray | Tensor:
+    """
+    Performs the de Casteljau algorithm to evaluate an n-variate
+    Bernstein polynomial.
 
-    @staticmethod
-    def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
-        """
-        Computes the strides within the Bernstein coefficients array for
-        an n-variate Bernstein polynomial of given degrees.
+    :param d: The degrees of the n-variate Bernstein polynomial.
+    :param s: The strides within the Bernstein batch.
+    :param b: The Bernstein batch.
+    :param x: The n-variate input vectors.
+    :return: The values of the Bernstein polynomial for the given
+    input vectors.
+    """
+    n = d.size
+    for i in range(n):
+        for j in reversed(range(s[i], s[i - 1], s[i])):
+            b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
+    return b[0]
 
-        :param d: The degrees of the n-variate Bernstein polynomial.
 
-        :return: A tuple of the given degrees and the computed strides. The
-        value of the last element of the strides array corresponds to the
-        size of the coefficients array.
-        """
-        n = d.size
-        s = np.ones(n + 1, d.dtype)
-        for i in reversed(range(n)):
-            s[i - 1] = s[i] * (d[i] + 1)
-        return d, s
+def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
+    """
+    Computes the strides within the Bernstein coefficients array for
+    an n-variate Bernstein polynomial of given degrees.
+
+    :param d: The degrees of the n-variate Bernstein polynomial.
+
+    :return: A tuple of the given degrees and the computed strides. The
+    value of the last element of the strides array corresponds to the
+    size of the coefficients array.
+    """
+    n = d.size
+    s = np.ones(n + 1, d.dtype)
+    for i in reversed(range(n)):
+        s[i - 1] = s[i] * (d[i] + 1)
+    return d, s
 
 
 class BInitializer(tki.Initializer):
