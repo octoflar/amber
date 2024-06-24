@@ -16,9 +16,9 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install .
-        pip install .[lint]
-        pip install .[test]
+        pip install -e .
+        pip install -e .[lint]
+        pip install -e .[test]
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
