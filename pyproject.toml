@@ -17,9 +17,22 @@ authors = [
 description = "Multivariate Bernstein polynomials"
 readme = "README.md"
 license = { text = "MIT License" }
-keywords = ["Bernstein polynomials"]
+keywords = [
+    "Bernstein polynomials",
+    "multivariate regression"
+]
 classifiers = [
-    "Programming Language :: Python"
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Private :: No Upload",
 ]
 
 [project.optional-dependencies]
@@ -67,17 +80,3 @@ packages = ["amber"]
 
 [tool.setuptools.dynamic]
 version = { attr = "amber.__version__" }
-
-classifiers = [
-    "Development Status :: 1 - Planning",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Natural Language :: English",
-    "Operating System :: MacOS",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Scientific/Engineering :: Mathematics",
-    "Private :: No Upload",
-]
