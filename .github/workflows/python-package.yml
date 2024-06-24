@@ -16,7 +16,6 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install -e .
         pip install -e .[lint]
         pip install -e .[test]
     - name: Lint with flake8
