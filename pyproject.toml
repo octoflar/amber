@@ -62,5 +62,8 @@ testpaths = [
     "amber-tests",
 ]
 
+[tool.setuptools]
+packages = ["amber"]
+
 [tool.setuptools.dynamic]
 version = { attr = "amber.__version__" }
