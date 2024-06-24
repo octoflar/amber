@@ -16,8 +16,9 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install .[lint]
-        pip install .[test]
+        python -m pip install --upgrade pip
+        python -m pip install .[lint]
+        python -m pip install .[test]
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -45,8 +46,9 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install .[lint]
-        pip install .[test]
+        python -m pip install --upgrade pip
+        python -m pip install .[lint]
+        python -m pip install .[test]
     - name: Lint with flake8 flake8-docstrings
       run: |
         # stop the build if there are Python syntax errors or undefined names
