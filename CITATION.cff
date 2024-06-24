@@ -1,10 +1,24 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
 cff-version: 1.2.0
-message: "If you use this software, please cite it using these metadata."
+title: Amber - Multivariate Bernstein polynomials
+message: >-
+  If you use this software, please cite it using these
+  metadata.
+type: software
 authors:
   - family-names: Quast
     given-names: Ralf
-    orcid: "https://orcid.org/0000-0002-6857-6503"
-title: Amber - Multivariate Bernstein polynomials
-repository-code: "https://github.com/octoflar/amber"
-url: "https://octoflar.github.io/amber"
+    orcid: 'https://orcid.org/0000-0002-6857-6503'
+repository-code: 'https://github.com/octoflar/amber'
+url: 'https://octoflar.github.io/amber'
+abstract: >-
+  Amber provides code to evaluate multivariate Bernstein
+  polynomials in TensorFlow using De Casteljau's algorithm.
+  Multivariate Bernstein basis polynomials are particularly
+  useful for linear multivariate regression with linear
+  inequality constraints.
+keywords:
+  - multivariate regression
 license: MIT
