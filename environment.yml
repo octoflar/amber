@@ -5,12 +5,13 @@ dependencies:
   - python = 3.11
   - numpy
   - scipy
-  - jupyterlab
   - tensorflow >= 2.12.0
+  # extra
   - tensorflow-probability
-  # testing
+  - jupyterlab
+  # test
   - pytest
   - pytest-cov
-  # coding
+  # lint
   - black
   - flake8

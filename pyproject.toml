@@ -6,22 +6,35 @@ build-backend = "setuptools.build_meta"
 name = "amber"
 dynamic = ["version"]
 dependencies = [
-  # see environment.yml
+    "numpy",
+    "scipy",
+    "tensorflow>=2.12.0",
 ]
 requires-python = ">=3.11"
 authors = [
-  {name = "Ralf Quast", email = "octoflar@icloud.com"},
+    { name = "Ralf Quast", email = "octoflar@icloud.com" },
 ]
 description = "Multivariate Bernstein polynomials"
 readme = "README.md"
-license = {text = "MIT License"}
+license = { text = "MIT License" }
 keywords = ["Bernstein polynomials"]
 classifiers = [
-  "Programming Language :: Python"
+    "Programming Language :: Python"
 ]
 
 [project.optional-dependencies]
-# none
+extra = [
+    "tensorflow-probability",
+    "jupyterlab",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+lint = [
+    "black",
+    "flake8",
+]
 
 [project.urls]
 Homepage = "https://octoflar.github.io/amber/"
@@ -37,7 +50,7 @@ target-version = ["py311"]
 [tool.coverage.report]
 exclude_also = [
     "@tf.function",
-    ]
+]
 
 [tool.flake8]
 max-line-length = 80
@@ -50,4 +63,4 @@ testpaths = [
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "amber.__version__"}
+version = { attr = "amber.__version__" }
