@@ -16,8 +16,7 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install -e .[lint]
-        pip install -e .[test]
+        pip install .[lint, test]
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -45,17 +44,15 @@ jobs:
         python-version: "3.11"
     - name: Install dependencies
       run: |
-        pip install numpy scipy tensorflow>=2.12.0
+        pip install .[lint, test]
     - name: Lint with flake8 flake8-docstrings
       run: |
-        pip install flake8
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings
         flake8 . --count --exit-zero --ignore E203 --max-complexity=10 --max-line-length=80 --statistics
     - name: Test with pytest
       run: |
-        pip install pytest pytest-cov
         pytest --cov=amber amber-tests
 
     - name: Upload coverage reports to Codecov
