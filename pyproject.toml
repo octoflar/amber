@@ -14,7 +14,7 @@ requires-python = ">=3.11"
 authors = [
     { name = "Ralf Quast", email = "octoflar@icloud.com" },
 ]
-description = "Multivariate Bernstein polynomials"
+description = "Amber provides code to evaluate multivariate Bernstein polynomials in TensorFlow"
 readme = "README.md"
 license = { text = "MIT License" }
 keywords = [
