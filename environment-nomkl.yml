@@ -4,15 +4,17 @@ channels:
 dependencies:
   - python = 3.11
   - nomkl
+  - numba
   - numpy
   - scipy
   - tensorflow >= 2.12.0
   # extra
-  - tensorflow-probability
   - jupyterlab
+  - tensorflow-probability
   # test
   - pytest
   - pytest-cov
   # lint
   - black
+  - black-jupyter
   - flake8
