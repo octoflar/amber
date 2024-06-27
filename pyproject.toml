@@ -34,8 +34,9 @@ classifiers = [
 
 [project.optional-dependencies]
 extra = [
-    "tensorflow-probability",
     "jupyterlab",
+    "numba",
+    "tensorflow-probability",
 ]
 test = [
     "pytest",
@@ -43,6 +44,7 @@ test = [
 ]
 lint = [
     "black",
+    "black[jupyter]",
     "flake8",
 ]
 
