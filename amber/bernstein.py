@@ -59,7 +59,7 @@ class BPoly:
         :param m: The number of n-variate input vectors.
         :return: The corresponding Bernstein batch.
         """
-        assert np.shape(c) == (self._s[-1:],)
+        assert np.shape(c) == self._s[-1:]
         return np.repeat(c, m).reshape(c.shape + (m,))
 
     @tf.function(jit_compile=True)

@@ -36,6 +36,7 @@ class BPolyTest(unittest.TestCase):
     def setUp(self) -> None:
         tf.experimental.numpy.experimental_enable_numpy_behavior()
 
+    # noinspection PyTypeChecker
     def test_b_poly(self):
         d = np.array([4, 3, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
@@ -50,7 +51,7 @@ class BPolyTest(unittest.TestCase):
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f.eval(b, x).data
+        y = f.eval(b, x)
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
@@ -60,6 +61,7 @@ class BPolyTest(unittest.TestCase):
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
 
+    # noinspection PyTypeChecker
     def test_b_poly_gradient(self):
         d = np.array([2, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
@@ -75,7 +77,7 @@ class BPolyTest(unittest.TestCase):
         self.assertAlmostEqual(7.0, y[3])
         self.assertAlmostEqual(9.0, y[4])
 
-        g = f.grad(b, x).data
+        g = f.grad(b, x)
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
@@ -105,11 +107,12 @@ class BLayerTest(unittest.TestCase):
         )
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x).data
+        y = f(x)
         self.assertAlmostEqual(19.8694, y[0], 4)
         self.assertAlmostEqual(32.0761, y[1], 4)
         self.assertAlmostEqual(19.6774, y[2], 4)
 
+    # noinspection PyTypeChecker
     def test_b_layer_gradient(self):
         d = np.array([2, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
@@ -118,7 +121,7 @@ class BLayerTest(unittest.TestCase):
         )
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x).data
+        y = f(x)
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
@@ -127,7 +130,7 @@ class BLayerTest(unittest.TestCase):
 
         with tf.GradientTape() as t:
             y = f(x)
-        g = t.gradient(y, x).data
+        g = t.gradient(y, x)
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
