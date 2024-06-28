@@ -15,7 +15,7 @@ repository-code: 'https://github.com/octoflar/amber'
 url: 'https://octoflar.github.io/amber'
 abstract: >-
   Amber provides code to evaluate multivariate Bernstein
-  polynomials in TensorFlow using De Casteljau's algorithm.
+  polynomials in TensorFlow using de Casteljau's algorithm.
   Multivariate Bernstein basis polynomials are particularly
   useful for linear multivariate regression with linear
   inequality constraints.

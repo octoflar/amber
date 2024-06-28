@@ -2,7 +2,7 @@
 
 Amber provides code to evaluate multivariate Bernstein polynomials in
 [TensorFlow](https://www.tensorflow.org) using
-[De Casteljau's algorithm](https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm).
+[de Casteljau's algorithm](https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm).
 Multivariate Bernstein basis polynomials are particularly useful for linear multivariate
 regression with linear inequality constraints.
 
