@@ -43,18 +43,27 @@ def _tf_config(
     operations. If ``0`` the system picks an appropriate number.
     :param: numpy_behaviour Enables or disables experimental numpy behavior.
     """
-    try:
+
+    def _before_import_tensorflow():
+        """Minimise verbosity."""
+        import os
+
+        os.environ["AUTOGRAPH_VERBOSITY"] = str(0)
+        os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(3)
         import logging
 
-        logging.getLogger("absl").setLevel(log_level)
-        logging.getLogger("tensorflow").setLevel(log_level)
+        logging.getLogger("tensorflow").setLevel(logging.CRITICAL)
 
+    _before_import_tensorflow()
+
+    try:
         import tensorflow as tf
 
-        tf.get_logger().setLevel(log_level)
+        tf.autograph.set_verbosity(0)
         tf.config.threading.set_inter_op_parallelism_threads(num_threads)
         if numpy_behaviour:
             tf.experimental.numpy.experimental_enable_numpy_behavior()
+        tf.get_logger().setLevel(log_level)
     except ModuleNotFoundError:
         pass
 
