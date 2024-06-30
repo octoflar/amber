@@ -69,7 +69,7 @@ max-line-length = 80
 
 [tool.pytest.ini_options]
 addopts = "--cov=amber"
-pythonpath = "amber"
+pythonpath = "."
 testpaths = [
     "amber-tests",
 ]

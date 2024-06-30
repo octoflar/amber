@@ -24,17 +24,21 @@ import unittest
 import numpy as np
 import tensorflow as tf
 
-from bernstein import BInitializer
-from bernstein import BLayer
-from bernstein import BPoly
+from amber.bernstein import BInitializer
+from amber.bernstein import BLayer
+from amber.bernstein import BPoly
 
 tfk = tf.keras
+
+_TF_EXPERIMENTAL: bool = True
+"""Enables TensorFlow experimental numpy behaviour."""
 
 
 class BPolyTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        tf.experimental.numpy.experimental_enable_numpy_behavior()
+        if _TF_EXPERIMENTAL:
+            tf.experimental.numpy.experimental_enable_numpy_behavior()
 
     # noinspection PyTypeChecker
     def test_b_poly(self):
@@ -56,7 +60,7 @@ class BPolyTest(unittest.TestCase):
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
 
-        y = f(b, x)
+        y = f(b, x).numpy()
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
@@ -70,14 +74,14 @@ class BPolyTest(unittest.TestCase):
         f = BPoly(d)
         b = f.batch(c, m)
 
-        y = f(b, x)
+        y = f(b, x).numpy()
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
         self.assertAlmostEqual(7.0, y[3])
         self.assertAlmostEqual(9.0, y[4])
 
-        g = f.grad(b, x)
+        g = f.grad(b, x).numpy()
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
@@ -93,7 +97,8 @@ class BPolyTest(unittest.TestCase):
 class BLayerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        tf.experimental.numpy.experimental_enable_numpy_behavior()
+        if _TF_EXPERIMENTAL:
+            tf.experimental.numpy.experimental_enable_numpy_behavior()
 
     def test_b_layer(self):
         d = np.array([4, 3, 2])
@@ -107,7 +112,7 @@ class BLayerTest(unittest.TestCase):
         )
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x)
+        y = f(x).numpy()
         self.assertAlmostEqual(19.8694, y[0], 4)
         self.assertAlmostEqual(32.0761, y[1], 4)
         self.assertAlmostEqual(19.6774, y[2], 4)
@@ -121,7 +126,7 @@ class BLayerTest(unittest.TestCase):
         )
         f = BLayer(d, BInitializer(d, c))
 
-        y = f(x)
+        y = f(x).numpy()
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
@@ -130,7 +135,7 @@ class BLayerTest(unittest.TestCase):
 
         with tf.GradientTape() as t:
             y = f(x)
-        g = t.gradient(y, x)
+        g = t.gradient(y, x).numpy()
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
