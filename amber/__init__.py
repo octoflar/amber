@@ -23,23 +23,40 @@ TensorFlow using de Casteljau's algorithm. Multivariate Bernstein basis
 polynomials are particularly useful for linear multivariate regression
 with linear inequality constraints.
 """
+from typing import Literal
 
 __version__ = "2024.0.0"
 """The software version."""
 
 
-def _tf_config(numpy_behaviour: bool):
+def _tf_config(
+    log_level: Literal[
+        "CRITICAL", "FATAL", "ERROR", "WARN", "WARNING", "INFO", "DEBUG"
+    ] = "ERROR",
+    num_threads: int = 1,
+    numpy_behaviour: bool = True,
+):
     """Configures ``tensorflow``.
 
-    :param: numpy_behaviour Enables experimental numpy behavior, if ``True``.
+    :param: log_level The log level.
+    :param: num_threads The number of threads used by independent non-blocking
+    operations. If ``0`` the system picks an appropriate number.
+    :param: numpy_behaviour Enables or disables experimental numpy behavior.
     """
     try:
+        import logging
+
+        logging.getLogger("absl").setLevel(log_level)
+        logging.getLogger("tensorflow").setLevel(log_level)
+
         import tensorflow as tf
 
+        tf.get_logger().setLevel(log_level)
+        tf.config.threading.set_inter_op_parallelism_threads(num_threads)
         if numpy_behaviour:
             tf.experimental.numpy.experimental_enable_numpy_behavior()
     except ModuleNotFoundError:
         pass
 
 
-_tf_config(numpy_behaviour=True)
+_tf_config()
