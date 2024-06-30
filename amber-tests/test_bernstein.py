@@ -44,9 +44,9 @@ class BPolyTest(unittest.TestCase):
                 [0.3141, 0.2718, 0.5772],
             ]
         )
-        n, m = np.shape(x)
+        n, howmany = np.shape(x)
         f = BPoly(d)
-        b = f.batch(c, m)
+        b = f.batch(c, howmany)
 
         y = f.eval(b, x)
         self.assertAlmostEqual(19.8694, y[0])
@@ -63,9 +63,9 @@ class BPolyTest(unittest.TestCase):
         d = np.array([2, 2])
         c = np.arange(np.prod(d + 1)) + 1.0
         x = np.array([[0.0, 0.25, 0.5, 0.75, 1.0], [0.0, 0.25, 0.5, 0.75, 1.0]])
-        n, m = np.shape(x)
+        n, howmany = np.shape(x)
         f = BPoly(d)
-        b = f.batch(c, m)
+        b = f.batch(c, howmany)
 
         y = f(b, x).numpy()
         self.assertAlmostEqual(1.0, y[0])

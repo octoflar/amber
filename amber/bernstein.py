@@ -51,16 +51,16 @@ class BPoly:
         self._d = d
         self._m = strides(d)
 
-    def batch(self, c: ndarray, how_many: int) -> ndarray:
+    def batch(self, c: ndarray, howmany: int) -> ndarray:
         """
         Creates an n-variate Bernstein batch.
 
         :param c: The Bernstein coefficients.
-        :param how_many: The number of n-variate input vectors.
+        :param howmany: The number of n-variate input vectors.
         :return: The Bernstein batch.
         """
         assert np.shape(c) == self._m[-1:]
-        return np.repeat(c, how_many).reshape(c.shape + (how_many,))
+        return np.repeat(c, howmany).reshape(c.shape + (howmany,))
 
     @tf.function(jit_compile=True)
     def __call__(self, b: ndarray, x: ndarray) -> ndarray | Tensor:
@@ -113,7 +113,7 @@ class BLayer(tfk.layers.Layer):
     """The constraints on the Bernstein coefficients."""
     _c: Variable
     """The Bernstein coefficients."""
-    _how_many: int
+    _howmany: int
     """The number of n-variate input vectors."""
     _n: int
     """The dimension of an input vector."""
@@ -145,7 +145,7 @@ class BLayer(tfk.layers.Layer):
 
     def build(self, input_shape):
         """TensorFlow API."""
-        self._n, self._how_many = input_shape
+        self._n, self._howmany = input_shape
         self._c = self.add_weight(
             shape=self._m[-1:],
             initializer=self._initializer,
@@ -157,7 +157,7 @@ class BLayer(tfk.layers.Layer):
     def call(self, inputs, **kwargs) -> Tensor:
         """TensorFlow API."""
         return _op(
-            self._d, self._m, self._batch(self._c, self._how_many), inputs
+            self._d, self._m, self._batch(self._c, self._howmany), inputs
         )
 
     def get_config(self) -> dict:
@@ -171,15 +171,15 @@ class BLayer(tfk.layers.Layer):
         }
 
     @staticmethod
-    def _batch(c: Variable, how_many: int) -> Tensor:
+    def _batch(c: Variable, howmany: int) -> Tensor:
         """
         Returns a new Bernstein batch.
 
         :param c: The Bernstein coefficients.
-        :param how_many: The number of n-variate input vectors.
+        :param howmany: The number of n-variate input vectors.
         :return: The Bernstein batch.
         """
-        return tf.repeat(c, how_many).reshape(c.shape + (how_many,))
+        return tf.repeat(c, howmany).reshape(c.shape + (howmany,))
 
 
 def _op(
