@@ -18,8 +18,8 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 """
-A function and a layer to evaluate Bernstein polynomials for use with
-TensorFlow.
+A function and a layer to evaluate n-variate Bernstein polynomials
+based on TensorFlow API.
 """
 
 import numpy as np
@@ -39,74 +39,69 @@ class BPoly:
 
     _d: ndarray
     """The degrees of the n-variate Bernstein polynomial."""
-    _s: ndarray
+    _m: ndarray
     """The strides within the n-variate Bernstein batch."""
 
     def __init__(self, d: ndarray):
         """
-        Creates a new n-variate Bernstein polynomial of given degree.
+        Creates an n-variate Bernstein polynomial.
 
         :param d: The degrees of the n-variate Bernstein polynomial.
         """
-        self._d, self._s = _strides(d)
+        self._d = d
+        self._m = strides(d)
 
-    def batch(self, c: ndarray, m: int) -> ndarray:
+    def batch(self, c: ndarray, how_many: int) -> ndarray:
         """
-        Creates a new Bernstein batch for given Bernstein coefficients and
-        a given number of n-variate input vectors.
+        Creates an n-variate Bernstein batch.
 
         :param c: The Bernstein coefficients.
-        :param m: The number of n-variate input vectors.
-        :return: The corresponding Bernstein batch.
+        :param how_many: The number of n-variate input vectors.
+        :return: The Bernstein batch.
         """
-        assert np.shape(c) == self._s[-1:]
-        return np.repeat(c, m).reshape(c.shape + (m,))
+        assert np.shape(c) == self._m[-1:]
+        return np.repeat(c, how_many).reshape(c.shape + (how_many,))
 
     @tf.function(jit_compile=True)
     def __call__(self, b: ndarray, x: ndarray) -> ndarray | Tensor:
         """
-        Evaluates the n-variate Bernstein polynomial for a given Bernstein
-        batch and the given n-variate input vectors.
+        Evaluates the n-variate Bernstein polynomial.
 
         :param b: The Bernstein batch.
         :param x: The n-variate input vectors.
-        :return: The values of the Bernstein polynomial for the given input
-        vectors.
+        :return: The values of the Bernstein polynomial.
         """
-        return _op(self._d, self._s, b, x)
+        return _op(self._d, self._m, b, x)
 
     @tf.function(jit_compile=True)
     def grad(self, b: ndarray, x: ndarray) -> Tensor:
         """
-        Evaluates the gradient of the Bernstein polynomial for a given
-        Bernstein batch and the given n-variate input vectors.
+        Evaluates the gradient of the n-variate Bernstein polynomial
+        with respect to the input vectors.
 
         :param b: The Bernstein batch.
         :param x: The n-variate input vectors.
-        :return: The values of the gradient of the Bernstein polynomial for
-        the given input vectors.
+        :return: The values of the gradient of the Bernstein polynomial.
         """
-        return tf.gradients(_op(self._d, self._s, b, x), x)[0]
+        return tf.gradients(_op(self._d, self._m, b, x), x)[0]
 
     def eval(self, b: ndarray, x: ndarray) -> ndarray:
         """
-        Evaluates the n-variate Bernstein polynomial for a given Bernstein
-        batch and the given n-variate input vectors.
+        Evaluates the n-variate Bernstein polynomial.
 
         :param b: The Bernstein batch.
         :param x: The n-variate input vectors.
-        :return: The values of the Bernstein polynomial for the given input
-        vectors.
+        :return: The values of the Bernstein polynomial.
         """
-        return _op(self._d, self._s, b, x)
+        return _op(self._d, self._m, b, x)
 
 
 class BLayer(tfk.layers.Layer):
-    """An n-variate Bernstein polynomial layer."""
+    """An n-variate Bernstein layer."""
 
     _d: ndarray
     """The degrees of the Bernstein polynomial."""
-    _s: ndarray
+    _m: ndarray
     """The strides within the n-variate Bernstein layer."""
     _initializer: tki.Initializer
     """The Bernstein coefficients initializer."""
@@ -118,7 +113,7 @@ class BLayer(tfk.layers.Layer):
     """The constraints on the Bernstein coefficients."""
     _c: Variable
     """The Bernstein coefficients."""
-    _m: int
+    _how_many: int
     """The number of n-variate input vectors."""
     _n: int
     """The dimension of an input vector."""
@@ -132,7 +127,7 @@ class BLayer(tfk.layers.Layer):
         constraint: tkc.Constraint = None,
     ):
         """
-        Creates a new instance of this class.
+        Creates a new Bernstein layer.
 
         :param d: The degrees of the Bernstein polynomial.
         :param initializer: An initializer.
@@ -141,17 +136,18 @@ class BLayer(tfk.layers.Layer):
         :param constraint: A constraint.
         """
         super(BLayer, self).__init__()
-        self._d, self._s = _strides(d)
+        self._d = d
+        self._m = strides(d)
         self._initializer = initializer
         self._regularizer = regularizer
         self._constraint = constraint
         self._trainable = trainable
 
     def build(self, input_shape):
-        """Called by TensorFlow."""
-        self._n, self._m = input_shape
+        """TensorFlow API."""
+        self._n, self._how_many = input_shape
         self._c = self.add_weight(
-            shape=self._s[-1:],
+            shape=self._m[-1:],
             initializer=self._initializer,
             regularizer=self._regularizer,
             trainable=self._trainable,
@@ -159,11 +155,13 @@ class BLayer(tfk.layers.Layer):
         )
 
     def call(self, inputs, **kwargs) -> Tensor:
-        """Called by TensorFlow."""
-        return _op(self._d, self._s, self._batch(self._c, self._m), inputs)
+        """TensorFlow API."""
+        return _op(
+            self._d, self._m, self._batch(self._c, self._how_many), inputs
+        )
 
     def get_config(self) -> dict:
-        """Called by TensorFlow."""
+        """TensorFlow API."""
         return {
             "d": self._d,
             "initializer": self._initializer,
@@ -173,81 +171,74 @@ class BLayer(tfk.layers.Layer):
         }
 
     @staticmethod
-    def _batch(c: Variable, m: int) -> Tensor:
+    def _batch(c: Variable, how_many: int) -> Tensor:
         """
-        Returns a new Bernstein batch for given coefficients and number of
-        n-variate input vectors.
+        Returns a new Bernstein batch.
 
         :param c: The Bernstein coefficients.
-        :param m: The number of n-variate input vectors.
+        :param how_many: The number of n-variate input vectors.
         :return: The Bernstein batch.
         """
-        return tf.repeat(c, m).reshape(c.shape + (m,))
+        return tf.repeat(c, how_many).reshape(c.shape + (how_many,))
 
 
 def _op(
-    d: ndarray, s: ndarray, b: ndarray | Tensor, x: ndarray | Variable
+    d: ndarray, m: ndarray, b: ndarray | Tensor, x: ndarray | Variable
 ) -> ndarray | Tensor:
     """
     Performs the de Casteljau algorithm to evaluate an n-variate
     Bernstein polynomial.
 
     :param d: The degrees of the n-variate Bernstein polynomial.
-    :param s: The strides within the Bernstein batch.
+    :param m: The strides within the Bernstein batch.
     :param b: The Bernstein batch.
     :param x: The n-variate input vectors.
-    :return: The values of the Bernstein polynomial for the given
-    input vectors.
+    :return: The values of the Bernstein polynomial.
     """
     n = d.size
     for i in range(n):
-        for j in reversed(range(s[i], s[i - 1], s[i])):
-            b = b[0:j] + (b[s[i] : s[i] + j] - b[0:j]) * x[i]
+        for j in reversed(range(m[i], m[i - 1], m[i])):
+            b = b[0:j] + (b[m[i] : m[i] + j] - b[0:j]) * x[i]
     return b[0]
 
 
-def _strides(d: ndarray) -> tuple[ndarray, ndarray]:
+def strides(d: ndarray) -> ndarray:
     """
-    Computes the strides within the Bernstein coefficients array for
-    an n-variate Bernstein polynomial of given degrees.
+    Computes the strides within an n-variate Bernstein batch.
 
-    :param d: The degrees of the n-variate Bernstein polynomial.
-
-    :return: A tuple of the given degrees and the computed strides. The
-    value of the last element of the strides array corresponds to the
-    size of the coefficients array.
+    :param d: The degrees of the Bernstein polynomial.
+    :return: The strides batch. The last element represents
+    the size of the Bernstein batch.
     """
     n = d.size
-    s = np.ones(n + 1, d.dtype)
+    m = np.ones(n + 1, d.dtype)
     for i in reversed(range(n)):
-        s[i - 1] = s[i] * (d[i] + 1)
-    return d, s
+        m[i - 1] = m[i] * (d[i] + 1)
+    return m
 
 
 class BInitializer(tki.Initializer):
     """
-    Initializes an n-variate Bernstein polynomial layer with initial
-    coefficients.
+    Initializes an n-variate Bernstein layer.
     """
 
-    _b: ndarray
+    _c: ndarray
     """The initial Bernstein coefficients."""
 
-    def __init__(self, d: ndarray, b: ndarray):
+    def __init__(self, d: ndarray, c: ndarray):
         """
-        Creates a new initializer to initialize an n-variate Bernstein
-        polynomial layer of given degrees with given Bernstein coefficients.
+        Creates a new initializer.
 
-        :param d: The degrees of the Bernstein polynomial layer.
-        :param b: The Bernstein coefficients.
+        :param d: The degrees of the Bernstein polynomial.
+        :param c: The Bernstein coefficients.
         """
-        assert np.shape(b) == np.prod(d + 1)
-        self._b = b
+        assert np.shape(c) == np.prod(d + 1)
+        self._c = c
 
     def __call__(self, shape, dtype=None, **kwargs) -> Tensor:
-        """Called by TensorFlow."""
-        return tf.constant(self._b, dtype=dtype, shape=shape)
+        """TensorFlow API."""
+        return tf.constant(self._c, dtype=dtype, shape=shape)
 
     def get_config(self):
-        """Called by TensorFlow."""
-        return {"b": self._b}
+        """TensorFlow API."""
+        return {"c": self._c}
