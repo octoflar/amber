@@ -26,3 +26,20 @@ with linear inequality constraints.
 
 __version__ = "2024.0.0"
 """The software version."""
+
+
+def _tf_config(numpy_behaviour: bool):
+    """Configures ``tensorflow``.
+
+    :param: numpy_behaviour Enables experimental numpy behavior, if ``True``.
+    """
+    try:
+        import tensorflow as tf
+
+        if numpy_behaviour:
+            tf.experimental.numpy.experimental_enable_numpy_behavior()
+    except ModuleNotFoundError:
+        pass
+
+
+_tf_config(numpy_behaviour=True)

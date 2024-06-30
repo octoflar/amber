@@ -30,15 +30,8 @@ from amber.bernstein import BPoly
 
 tfk = tf.keras
 
-_TF_EXPERIMENTAL: bool = True
-"""Enables TensorFlow experimental numpy behaviour."""
-
 
 class BPolyTest(unittest.TestCase):
-
-    def setUp(self) -> None:
-        if _TF_EXPERIMENTAL:
-            tf.experimental.numpy.experimental_enable_numpy_behavior()
 
     # noinspection PyTypeChecker
     def test_b_poly(self):
@@ -95,10 +88,6 @@ class BPolyTest(unittest.TestCase):
 
 
 class BLayerTest(unittest.TestCase):
-
-    def setUp(self) -> None:
-        if _TF_EXPERIMENTAL:
-            tf.experimental.numpy.experimental_enable_numpy_behavior()
 
     def test_b_layer(self):
         d = np.array([4, 3, 2])
