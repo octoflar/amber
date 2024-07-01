@@ -23,22 +23,21 @@ TensorFlow using de Casteljau's algorithm. Multivariate Bernstein basis
 polynomials are particularly useful for linear multivariate regression
 with linear inequality constraints.
 """
-from typing import Dict
 from typing import Literal
 
 __version__ = "2024.0.0"
 """The software version."""
 
 
-def _tf_config(
+def tf_config(
     log_level: Literal[
         "default",
         "no-info",
         "no-info-no-warning",
         "no-info-no-warning-no-error",
-    ] = "default",
-    num_threads: int = 0,
-    numpy_behaviour: bool = False,
+    ] = "no-info-no-warning-no-error",
+    num_threads: int = 1,
+    numpy_behaviour: bool = True,
 ):
     """Configures ``tensorflow``.
 
@@ -68,6 +67,4 @@ def _tf_config(
         pass
 
 
-_tf_config(
-    log_level="no-info-no-warning-no-error", num_threads=1, numpy_behaviour=True
-)
+tf_config()
