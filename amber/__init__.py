@@ -31,9 +31,14 @@ __version__ = "2024.0.0"
 
 
 def _tf_config(
-    log_level: Literal["info", "warning", "error", "none"] = "info",
-    num_threads: int = 1,
-    numpy_behaviour: bool = True,
+    log_level: Literal[
+        "default",
+        "no-info",
+        "no-info-no-warning",
+        "no-info-no-warning-no-error",
+    ] = "default",
+    num_threads: int = 0,
+    numpy_behaviour: bool = False,
 ):
     """Configures ``tensorflow``.
 
@@ -43,10 +48,10 @@ def _tf_config(
     :param: numpy_behaviour Enables or disables experimental numpy behavior.
     """
     tf_log_levels: dict[str, int] = {
-        "info": 0,
-        "warning": 1,
-        "error": 2,
-        "none": 3,
+        "default": 0,
+        "no-info": 1,
+        "no-info-no-warning": 2,
+        "no-info-no-warning-no-error": 3,
     }
     """The log levels."""
     import os
@@ -63,4 +68,6 @@ def _tf_config(
         pass
 
 
-_tf_config()
+_tf_config(
+    log_level="no-info-no-warning-no-error", num_threads=1, numpy_behaviour=True
+)
