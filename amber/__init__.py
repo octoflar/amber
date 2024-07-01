@@ -23,6 +23,7 @@ TensorFlow using de Casteljau's algorithm. Multivariate Bernstein basis
 polynomials are particularly useful for linear multivariate regression
 with linear inequality constraints.
 """
+from typing import Dict
 from typing import Literal
 
 __version__ = "2024.0.0"
@@ -30,9 +31,7 @@ __version__ = "2024.0.0"
 
 
 def _tf_config(
-    log_level: Literal[
-        "CRITICAL", "FATAL", "ERROR", "WARN", "WARNING", "INFO", "DEBUG"
-    ] = "ERROR",
+    log_level: Literal["info", "warning", "error", "none"] = "info",
     num_threads: int = 1,
     numpy_behaviour: bool = True,
 ):
@@ -43,19 +42,16 @@ def _tf_config(
     operations. If ``0`` the system picks an appropriate number.
     :param: numpy_behaviour Enables or disables experimental numpy behavior.
     """
+    tf_log_levels: dict[str, int] = {
+        "info": 0,
+        "warning": 1,
+        "error": 2,
+        "none": 3,
+    }
+    """The log levels."""
+    import os
 
-    def _before_import_tensorflow():
-        """Minimise verbosity."""
-        import os
-
-        os.environ["AUTOGRAPH_VERBOSITY"] = str(0)
-        os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(3)
-        import logging
-
-        logging.getLogger("tensorflow").setLevel(logging.CRITICAL)
-
-    _before_import_tensorflow()
-
+    os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(tf_log_levels[log_level])
     try:
         import tensorflow as tf
 
@@ -63,7 +59,6 @@ def _tf_config(
         tf.config.threading.set_inter_op_parallelism_threads(num_threads)
         if numpy_behaviour:
             tf.experimental.numpy.experimental_enable_numpy_behavior()
-        tf.get_logger().setLevel(log_level)
     except ModuleNotFoundError:
         pass
 
