@@ -6,9 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "amber"
 dynamic = ["version"]
 dependencies = [
+    "numba",
     "numpy==1.26.4",
-    "scipy",
     "tensorflow==2.14.0",
+    "tensorflow-probability",
 ]
 requires-python = ">=3.11"
 authors = [
@@ -35,8 +36,6 @@ classifiers = [
 [project.optional-dependencies]
 extra = [
     "jupyterlab",
-    "numba",
-    "tensorflow-probability",
 ]
 test = [
     "pytest",

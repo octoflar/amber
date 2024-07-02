@@ -6,11 +6,10 @@ dependencies:
   - nomkl
   - numba
   - numpy = 1.26.4
-  - scipy
   - tensorflow = 2.14.0
+  - tensorflow-probability
   # extra
   - jupyterlab
-  - tensorflow-probability
   # test
   - pytest
   - pytest-cov
