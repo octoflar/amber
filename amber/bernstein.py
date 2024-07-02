@@ -49,7 +49,7 @@ class BPoly:
         :param d: The degrees of the n-variate Bernstein polynomial.
         """
         self._d = d
-        self._m = strides(d)
+        self._m = _strides(d)
 
     def batch(self, c: ndarray, howmany: int) -> ndarray:
         """
@@ -95,6 +95,13 @@ class BPoly:
         """
         return _op(self._d, self._m, b, x)
 
+    @property
+    def strides(self) -> ndarray:
+        """
+        Returns the strides within the n-variate Bernstein batch.
+        """
+        return _strides(self._d)
+
 
 class BLayer(tfk.layers.Layer):
     """An n-variate Bernstein layer."""
@@ -137,7 +144,7 @@ class BLayer(tfk.layers.Layer):
         """
         super(BLayer, self).__init__()
         self._d = d
-        self._m = strides(d)
+        self._m = _strides(d)
         self._initializer = initializer
         self._regularizer = regularizer
         self._constraint = constraint
@@ -202,12 +209,12 @@ def _op(
     return b[0]
 
 
-def strides(d: ndarray) -> ndarray:
+def _strides(d: ndarray) -> ndarray:
     """
     Computes the strides within an n-variate Bernstein batch.
 
     :param d: The degrees of the Bernstein polynomial.
-    :return: The strides batch. The last element represents
+    :return: The strides within the batch. The last element represents
     the size of the Bernstein batch.
     """
     n = d.size
