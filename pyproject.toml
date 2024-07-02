@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "amber"
 dynamic = ["version"]
 dependencies = [
-    "numpy",
-    "scipy",
+    "numpy==1.26.4",
+    "scipy==1.14.4",
     "tensorflow==2.14.0",
 ]
 requires-python = ">=3.11"
@@ -68,7 +68,7 @@ exclude_also = [
 max-line-length = 80
 
 [tool.pytest.ini_options]
-addopts = "--cov=amber"
+addopts = "--cov=amber -p no:warnings"
 pythonpath = "."
 testpaths = [
     "amber-tests",

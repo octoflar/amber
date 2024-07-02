@@ -5,8 +5,8 @@ dependencies:
   - python = 3.11
   - nomkl
   - numba
-  - numpy
-  - scipy
+  - numpy = 1.26.4
+  - scipy = 1.14.4
   - tensorflow = 2.14.0
   # extra
   - jupyterlab
