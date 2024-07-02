@@ -7,7 +7,7 @@ name = "amber"
 dynamic = ["version"]
 dependencies = [
     "numpy==1.26.4",
-    "scipy==1.14.4",
+    "scipy",
     "tensorflow==2.14.0",
 ]
 requires-python = ">=3.11"
