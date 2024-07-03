@@ -67,7 +67,7 @@ exclude_also = [
 max-line-length = 80
 
 [tool.pytest.ini_options]
-addopts = "--cov=amber -p no:warnings"
+addopts = "--cov=. -p no:warnings"
 pythonpath = "."
 testpaths = [
     "amber-tests",
