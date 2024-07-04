@@ -31,11 +31,11 @@ __version__ = "2024.0.0"
 
 def tf_config(
     log_level: Literal[
-        "default",
-        "no-info",
-        "no-info-no-warning",
-        "no-info-no-warning-no-error",
-    ] = "no-info-no-warning-no-error",
+        "INFO",
+        "WARN",
+        "ERROR",
+        "FATAL",
+    ] = "FATAL",
     num_threads: int = 1,
     numpy_behaviour: bool = True,
 ):
@@ -47,17 +47,24 @@ def tf_config(
     :param: numpy_behaviour Enables or disables experimental numpy behavior.
     """
     tf_log_levels: dict[str, int] = {
-        "default": 0,
-        "no-info": 1,
-        "no-info-no-warning": 2,
-        "no-info-no-warning-no-error": 3,
+        "INFO": 0,
+        "WARN": 1,
+        "ERROR": 2,
+        "FATAL": 3,
     }
     """The log levels."""
     import os
 
     os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(tf_log_levels[log_level])
     try:
+        import logging
         import tensorflow as tf
+
+        tf.get_logger().setLevel(log_level)
+
+        from absl import logging
+
+        logging.set_verbosity(log_level)
 
         tf.autograph.set_verbosity(0)
         tf.config.threading.set_inter_op_parallelism_threads(num_threads)
