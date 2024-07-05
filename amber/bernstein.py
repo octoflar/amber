@@ -24,7 +24,6 @@ based on TensorFlow API.
 
 import numpy as np
 import tensorflow as tf
-import tensorflow.python.ops.numpy_ops.np_array_ops
 from numpy import ndarray
 from tensorflow import Tensor
 from tensorflow import Variable
