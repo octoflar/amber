@@ -57,14 +57,13 @@ def tf_config(
 
     os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(tf_log_levels[log_level])
     try:
-        import logging
-        import tensorflow as tf
-
-        tf.get_logger().setLevel(log_level)
-
         from absl import logging
 
         logging.set_verbosity(log_level)
+
+        import tensorflow as tf
+
+        tf.get_logger().setLevel(log_level)
 
         tf.autograph.set_verbosity(0)
         tf.config.threading.set_inter_op_parallelism_threads(num_threads)
