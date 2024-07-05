@@ -36,7 +36,7 @@ class BPolyTest(unittest.TestCase):
     # noinspection PyTypeChecker
     def test_b_poly(self):
         d = np.array([4, 3, 2])
-        c = np.arange(np.prod(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)).reshape(-1, 1) + 1.0
         x = np.array(
             [
                 [0.2718, 0.5772, 0.3141],
@@ -44,16 +44,14 @@ class BPolyTest(unittest.TestCase):
                 [0.3141, 0.2718, 0.5772],
             ]
         )
-        n, howmany = np.shape(x)
         f = BPoly(d)
-        b = f.batch(c, howmany)
 
-        y = f.eval(b, x)
+        y = f.eval(c, x)
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
 
-        y = f(b, x).numpy()
+        y = f(c, x).numpy()
         self.assertAlmostEqual(19.8694, y[0])
         self.assertAlmostEqual(32.0761, y[1])
         self.assertAlmostEqual(19.6774, y[2])
@@ -61,20 +59,18 @@ class BPolyTest(unittest.TestCase):
     # noinspection PyTypeChecker
     def test_b_poly_gradient(self):
         d = np.array([2, 2])
-        c = np.arange(np.prod(d + 1)) + 1.0
+        c = np.arange(np.prod(d + 1)).reshape(-1, 1) + 1.0
         x = np.array([[0.0, 0.25, 0.5, 0.75, 1.0], [0.0, 0.25, 0.5, 0.75, 1.0]])
-        n, howmany = np.shape(x)
         f = BPoly(d)
-        b = f.batch(c, howmany)
 
-        y = f(b, x).numpy()
+        y = f(c, x).numpy()
         self.assertAlmostEqual(1.0, y[0])
         self.assertAlmostEqual(3.0, y[1])
         self.assertAlmostEqual(5.0, y[2])
         self.assertAlmostEqual(7.0, y[3])
         self.assertAlmostEqual(9.0, y[4])
 
-        g = f.grad(b, x).numpy()
+        g = f.grad(c, x).numpy()
         self.assertAlmostEqual(6.0, g[0, 0])
         self.assertAlmostEqual(6.0, g[0, 1])
         self.assertAlmostEqual(6.0, g[0, 2])
