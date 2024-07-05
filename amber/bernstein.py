@@ -18,8 +18,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 """
-A function and a layer to evaluate n-variate Bernstein polynomials
-based on TensorFlow API.
+Evaluation of n-variate Bernstein polynomials based on TF API.
 """
 
 import numpy as np
@@ -56,6 +55,11 @@ class BPoly:
         """
         Evaluates the n-variate Bernstein polynomial.
 
+        The n-variate input is an array of shape ``(n, howmany)``. The batch
+        of Bernstein coefficients is an array of either shape ``(m, howmany)``
+        or ``(m, 1)`` where ``m = np.prod(d + 1)`` is the batch size defined
+        by the degrees of the polynomial.
+
         :param c: The Bernstein coefficients.
         :param x: The n-variate input.
         :return: The values of the Bernstein polynomial.
@@ -90,7 +94,8 @@ class BPoly:
         Returns the strides within the n-variate batch of Bernstein
         coefficients.
 
-        :return: The strides. The last element represents the size of the batch.
+        :return: The strides. The last element represents the size
+        of the batch of Bernstein coefficients.
         """
         return _strides(self._d)
 
@@ -143,7 +148,7 @@ class BLayer(tfk.layers.Layer):
         self._trainable = trainable
 
     def build(self, input_shape):
-        """TensorFlow API."""
+        """TF API."""
         self._n, self._howmany = input_shape
         self._c = self.add_weight(
             shape=(self._m[-1], 1),
@@ -154,11 +159,11 @@ class BLayer(tfk.layers.Layer):
         )
 
     def call(self, inputs, **kwargs) -> Tensor:
-        """TensorFlow API."""
+        """TF API."""
         return _op(self._d, self._m, self._c, inputs)
 
     def get_config(self) -> dict:
-        """TensorFlow API."""
+        """TF API."""
         return {
             "d": self._d,
             "initializer": self._initializer,
@@ -187,11 +192,11 @@ class BInitializer(tki.Initializer):
         self._c = c
 
     def __call__(self, shape, dtype=None, **kwargs) -> Tensor:
-        """TensorFlow API."""
+        """TF API."""
         return tf.constant(self._c, dtype=dtype, shape=shape)
 
     def get_config(self):
-        """TensorFlow API."""
+        """TF API."""
         return {"c": self._c}
 
 
