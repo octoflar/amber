@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python = 3.11
+  - absl-py
   - numba
   - numpy = 1.26.4
   - tensorflow = 2.14.0
