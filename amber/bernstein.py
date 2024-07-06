@@ -51,7 +51,9 @@ class BPoly:
         self._m = _strides(d)
 
     @tf.function(jit_compile=True)
-    def __call__(self, c: ndarray, x: ndarray) -> ndarray | Tensor:
+    def __call__(
+        self, c: ndarray | Variable, x: ndarray | Variable
+    ) -> ndarray | Tensor:
         """
         Evaluates the n-variate Bernstein polynomial.
 
@@ -64,10 +66,10 @@ class BPoly:
         :param x: The n-variate input.
         :return: The values of the Bernstein polynomial.
         """
-        return _op(self._d, self._m, c, x)
+        return self.eval(c, x)
 
     @tf.function(jit_compile=True)
-    def grad(self, c: ndarray, x: ndarray) -> Tensor:
+    def grad(self, c: ndarray | Variable, x: ndarray | Variable) -> Tensor:
         """
         Evaluates the gradient of the n-variate Bernstein polynomial
         with respect to the input vectors.
@@ -76,9 +78,11 @@ class BPoly:
         :param x: The n-variate input vectors.
         :return: The values of the gradient of the Bernstein polynomial.
         """
-        return tf.gradients(self.__call__(c, x), x)[0]
+        return tf.gradients(self.eval(c, x), x)[0]
 
-    def eval(self, c: ndarray, x: ndarray) -> ndarray:
+    def eval(
+        self, c: ndarray | Variable, x: ndarray | Variable
+    ) -> ndarray | Tensor:
         """
         Evaluates the n-variate Bernstein polynomial.
 
