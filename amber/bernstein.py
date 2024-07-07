@@ -204,6 +204,19 @@ class BInitializer(tki.Initializer):
         return {"c": self._c}
 
 
+@tf.function(jit_compile=True)
+def _lerp(a, b, x):
+    """
+    Performs a linear interpolation.
+
+    :param a: A value of the interpolant.
+    :param b: A value of the interpolant.
+    :param x: The interpolation weight.
+    :return: The interpolated value.
+    """
+    return a + (b - a) * x
+
+
 def _op(
     d: ndarray, m: ndarray, b: ndarray | Tensor, x: ndarray | Variable
 ) -> ndarray | Tensor:
@@ -220,7 +233,7 @@ def _op(
     n = d.size
     for i in range(n):
         for j in reversed(range(m[i], m[i - 1], m[i])):
-            b = b[0:j] * (1.0 - x[i]) + b[m[i] : m[i] + j] * x[i]
+            b = _lerp(b[0:j], b[m[i] : m[i] + j], x[i])
     return b[0]
 
 
