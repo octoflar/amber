@@ -1,7 +1,7 @@
 ## @author Ralf Quast
 ## @date 2025
 ## @copyright MIT License
-
+cmake_minimum_required(VERSION 3.5.0)
 include(src/main/cmake/test.cmake)
 include(src/main/cmake/unix.cmake)
 include(src/main/cmake/openmp.cmake)
