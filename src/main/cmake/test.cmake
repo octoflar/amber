@@ -6,6 +6,8 @@ function(add_unit_test NAME)
     add_executable(${NAME}
             ${ARGN}
             ${TEST}/fortran/test_mod.F90)
+    target_compile_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
+    target_link_options(${NAME} PRIVATE $<$<CONFIG:Debug>:--coverage>)
     add_test(NAME ${NAME} COMMAND ${NAME})
     set_tests_properties(${NAME} PROPERTIES LABELS unit TIMEOUT 60)
     add_custom_target(run${NAME} ${NAME}
