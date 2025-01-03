@@ -1,0 +1,2 @@
+ignore:
+  - "src/test/fortran/test_mod.F90"
