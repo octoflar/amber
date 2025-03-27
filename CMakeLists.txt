@@ -16,8 +16,8 @@ openmp_optional()
 ##
 # Source directories
 #
-set(MAIN ${CMAKE_SOURCE_DIR}/src/main)
-set(TEST ${CMAKE_SOURCE_DIR}/src/test)
+set(MAIN ${CMAKE_SOURCE_DIR}/etc/main)
+set(TEST ${CMAKE_SOURCE_DIR}/etc/test)
 
 
 ##
