@@ -1,2 +1,2 @@
 ignore:
-  - "etc/test/fortran/test_mod.F90"
+  - "assets/src/test/fortran/test_mod.F90"

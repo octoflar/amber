@@ -2,9 +2,9 @@
 ## @date 2025
 ## @copyright MIT License
 cmake_minimum_required(VERSION 3.10.0)
-include(etc/main/cmake/test.cmake)
-include(etc/main/cmake/unix.cmake)
-include(etc/main/cmake/openmp.cmake)
+include(assets/src/main/cmake/test.cmake)
+include(assets/src/main/cmake/unix.cmake)
+include(assets/src/main/cmake/openmp.cmake)
 
 ##
 # Project
@@ -16,8 +16,8 @@ openmp_optional()
 ##
 # Source directories
 #
-set(MAIN ${CMAKE_SOURCE_DIR}/etc/main)
-set(TEST ${CMAKE_SOURCE_DIR}/etc/test)
+set(MAIN ${CMAKE_SOURCE_DIR}/assets/src/main)
+set(TEST ${CMAKE_SOURCE_DIR}/assets/src/test)
 
 
 ##
