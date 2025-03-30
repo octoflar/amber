@@ -7,7 +7,7 @@
 !> Esmeralda Mainar, J.M. Pena (2006). "Evaluation algorithms for multivariate polynomials in Bernstein–Bezier form."
 !> Journal of Approximation Theory 143, 44–61. <https://doi.org/10.1016/j.jat.2006.05.007>.
 module bernstein_mod
-  use base_mod, only: sp, dp
+  use base_mod, only: dp
   implicit none
   private
 
@@ -19,7 +19,6 @@ module bernstein_mod
   !> @brief Evaluates an n-variate Bernstein basis at many points.
   interface bernstein_eval_basis_n
     module procedure bernstein_eval_basis_n__dp
-    module procedure bernstein_eval_basis_n__sp
   end interface
 
   !> @brief Evaluates an univariate Bernstein polynomial at many abscissa values.
@@ -116,34 +115,6 @@ contains
       end do
     end do
   end subroutine bernstein_eval_basis_n__dp
-
-  pure subroutine bernstein_eval_basis_n__sp( n, m, x, d, y )
-    implicit none
-    integer,       intent(in)  :: n
-    integer,       intent(in)  :: m
-    real(kind=sp), intent(in)  :: x(n,m)
-    integer,       intent(in)  :: d(n)
-    real(kind=dp), intent(out) :: y(product( d + 1 ),m)
-    real(kind=dp)              :: b(product( d + 1))
-    integer                    :: i, j, k
-    integer                    :: l(n)
-
-    l(1) = 1
-    do i = 1, n - 1
-      l(i + 1) = l(i) * (d(i) + 1)
-    end do
-  !TODO F18: do concurrent (k = 1:m) local(b)
-    do k = 1, m
-      do j = 1, product( d + 1 )
-        b = 0.0_dp
-        b(j) = 1.0_dp
-        do i = n, 1, -1
-          call eval_de_casteljau_n__sp( x(i,k), d(i), l(i), b )
-        end do
-        y(j,k) = b(1)
-      end do
-    end do
-  end subroutine bernstein_eval_basis_n__sp
 
   !> @brief Evaluates an univariate Bernstein polynomial at many abscissa values.
   !> @param[in] m The number of abscissa values.
@@ -406,27 +377,6 @@ contains
       end do
     end do
   end subroutine eval_de_casteljau_n__dp
-
-  pure subroutine eval_de_casteljau_n__sp( x, d, l, b )
-    implicit none
-    real(kind=sp), intent(in)    :: x
-    integer,       intent(in)    :: d
-    integer,       intent(in)    :: l
-    real(kind=dp), intent(inout) :: b(:)
-    real(kind=dp)                :: p
-    real(kind=dp)                :: q
-    integer                      :: i, j, k
-
-    p = x
-    q = 1.0_dp - p
-    do j = 1, d
-      k = 0
-      do i = 0, d - j
-        b(k + 1:k + l) = b(k + 1:k + l) * q + b(k + l + 1:k + l + l) * p
-        k = k + l
-      end do
-    end do
-  end subroutine eval_de_casteljau_n__sp
 
   !> @brief Evaluates the de Casteljau algorithm at many abscissa values.
   !> @param[in] m The number of abscissa values.
